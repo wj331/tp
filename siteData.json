@@ -107,7 +107,7 @@
       "src": "UserGuide.md",
       "title": "User Guide",
       "headings": {
-        "asclepius-user-guide": "Asclepius User Guide",
+        "clinicassistant-user-guide": "ClinicAssistant User Guide",
         "quick-start": "Quick start",
         "features": "Features",
         "viewing-help-help": "Viewing help : help",
@@ -131,7 +131,7 @@
       "src": "index.md",
       "title": "",
       "headings": {
-        "asclepius": "Asclepius"
+        "clinicassistant": "ClinicAssistant"
       },
       "headingKeywords": {}
     },
