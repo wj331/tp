@@ -111,6 +111,7 @@ public class UniqueAppointmentList implements Iterable<Appointment> {
      * {@code appointments} must not contain duplicate Appointments.
      */
     public void addAll(List<Appointment> appointments) {
+        //throws duplicate apptment exception
         requireAllNonNull(appointments);
         if (!appointmentsAreUnique(appointments)) {
             throw new DuplicateAppointmentException();

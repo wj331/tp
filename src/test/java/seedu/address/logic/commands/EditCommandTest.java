@@ -37,15 +37,14 @@ public class EditCommandTest {
 
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() {
-        Person editedPerson = new PersonBuilder().build();
+        Person editedPerson = new PersonBuilder().withTags("friends").build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
-        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
-
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor); //descriptor = empty
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
 
         Model expectedModel = new ModelManager(new ClinicAssistant(model.getAddressBook()), new UserPrefs());
-        expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
-
+        expectedModel.setPerson(expectedModel.getFilteredPersonList().get(0), editedPerson);
+        //expected model and message both correct
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
@@ -95,7 +94,7 @@ public class EditCommandTest {
 
         Model expectedModel = new ModelManager(new ClinicAssistant(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
-
+        //left = [friends] , right = []
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 

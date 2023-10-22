@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.api.function.Executable;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Age;
@@ -194,13 +195,16 @@ public class JsonAdaptedPersonTest {
 
     @Test
     public void toModelType_invalidAppointments_throwsDateTimeParseException() {
-        List<JsonAdaptedAppointment> invalidAppointments = new ArrayList<>();
-        invalidAppointments.add(new JsonAdaptedAppointment(INVALID_APPOINTMENT[0], INVALID_APPOINTMENT[1]));
-        //parse exception being thrown up here ^ which is too early
-        JsonAdaptedPerson person =
-                new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_GENDER, VALID_AGE, VALID_ETHNIC,
-                        VALID_NRIC, VALID_ADDRESS, VALID_TAGS, invalidAppointments);
-        assertThrows(DateTimeParseException.class, person::toModelType);
+        Executable executable = () -> {
+            List<JsonAdaptedAppointment> invalidAppointments = new ArrayList<>();
+            invalidAppointments.add(new JsonAdaptedAppointment(INVALID_APPOINTMENT[0], INVALID_APPOINTMENT[1]));
+            JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_GENDER,
+                    VALID_AGE, VALID_ETHNIC, VALID_NRIC, VALID_ADDRESS,
+                    VALID_TAGS, invalidAppointments);
+            person.toModelType();
+        };
+        assertThrows(DateTimeParseException.class, executable);
+
     }
 
 }

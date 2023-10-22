@@ -1,6 +1,7 @@
 package seedu.address.testutil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,6 +31,7 @@ public class PersonBuilder {
     public static final String DEFAULT_ETHNIC = "Chinese";
     public static final String DEFAULT_NRIC = "T0123456E";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final Set<Tag> DEFAULT_TAG = Collections.emptySet();
 
     private Name name;
     private Phone phone;
@@ -54,7 +56,7 @@ public class PersonBuilder {
         ethnic = new Ethnicity(DEFAULT_ETHNIC);
         nric = new Nric(DEFAULT_NRIC);
         address = new Address(DEFAULT_ADDRESS);
-        tags = new HashSet<>();
+        tags = new HashSet<>(DEFAULT_TAG);
     }
 
     /**

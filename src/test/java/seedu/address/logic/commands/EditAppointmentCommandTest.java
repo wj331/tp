@@ -44,7 +44,7 @@ public class EditAppointmentCommandTest {
 
         EditAppointmentDescriptor descriptor = new EditAppointmentDescriptorBuilder(toEditWith).build();
         EditAppointmentCommand editAppointmentCommand = new EditAppointmentCommand(INDEX_FIRST_PERSON,
-                INDEX_FIRST_APPOINTMENT , descriptor);
+                INDEX_FIRST_APPOINTMENT, descriptor);
 
         String expectedMessage = String.format(EditAppointmentCommand.MESSAGE_EDIT_APPOINTMENT_SUCCESS,
                 toEditWith, Messages.format(validPerson));
@@ -71,11 +71,11 @@ public class EditAppointmentCommandTest {
         assertEquals(new CommandResult(expectedMessage), editAppointmentCommand.execute(model));
     }
 
-    //TODO
-    //    @Test
-    //    public void execute_filteredList_success() {
-    //
-    //    }
+//    TODO
+//        @Test
+//        public void execute_filteredList_success() {
+//
+//        }
 
     @Test
     public void execute_noFieldSpecified_failure() throws ParseException {

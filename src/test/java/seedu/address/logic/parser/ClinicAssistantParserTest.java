@@ -61,6 +61,9 @@ public class ClinicAssistantParserTest {
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
+        //first object gives [] while command gives null
+        //descriptor between first editCommand and second command
+        //des
         assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
     }
 

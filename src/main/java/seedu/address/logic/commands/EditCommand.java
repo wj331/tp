@@ -246,7 +246,11 @@ public class EditCommand extends Command {
          * A defensive copy of {@code tags} is used internally.
          */
         public void setTags(Set<Tag> tags) {
-            this.tags = (tags != null) ? new HashSet<>(tags) : tags;
+            if (tags == null || tags.isEmpty()) {
+                this.tags = null;
+            } else {
+                this.tags = new HashSet<>(tags);
+            }
         }
 
         /**
@@ -255,7 +259,10 @@ public class EditCommand extends Command {
          * Returns {@code Optional#empty()} if {@code tags} is null.
          */
         public Optional<Set<Tag>> getTags() {
-            return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
+            if (tags == null) {
+                return Optional.empty();
+            }
+            return Optional.of(Collections.unmodifiableSet(tags));
         }
 
         @Override
