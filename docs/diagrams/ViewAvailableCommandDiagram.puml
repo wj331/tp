@@ -1,0 +1,97 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":ClinicAssistantParser" as ClinicAssistantParser LOGIC_COLOR
+participant ":ViewAvailableCommandParser" as ViewAvailableCommandParser LOGIC_COLOR
+participant "v:ViewAvailableCommand" as ViewAvailableCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "model:ModelManager" as ModelManager MODEL_COLOR
+participant "clinicAssistant:ClinicAssistant" as ClinicAssistant MODEL_COLOR
+participant ":FilteredList" as FilteredList MODEL_COLOR
+participant ":UniqueTimeslotList" as UniqueTimeslotList MODEL_COLOR
+
+end box
+
+[-> LogicManager : execute("view /on 02-01-2024")
+activate LogicManager
+
+LogicManager -> ClinicAssistantParser : parseCommand("view /on 02-01-2024")
+activate ClinicAssistantParser
+
+create ViewAvailableCommandParser
+ClinicAssistantParser -> ViewAvailableCommandParser : parse("view /on 02-01-2024")
+activate ViewAvailableCommandParser
+
+ViewAvailableCommandParser --> ClinicAssistantParser : new ViewAvailableCommand(predicate, apptmentpredicate, 02-01-2024)
+deactivate ViewAvailableCommandParser
+ViewAvailableCommandParser -[hidden]-> ClinicAssistantParser
+destroy ViewAvailableCommandParser
+
+ClinicAssistantParser ->  LogicManager : viewAvailableCommand
+deactivate ClinicAssistantParser
+
+LogicManager -> ViewAvailableCommand : execute(model)
+activate ViewAvailableCommand
+
+ViewAvailableCommand -> ModelManager : updateFilteredAppointmentList(Predicate)
+activate ModelManager
+
+ModelManager -> ViewAvailableCommand
+deactivate ModelManager
+
+ViewAvailableCommand -> ModelManager : getFilteredAppointmentList(Predicate)
+activate ModelManager
+
+ModelManager -> ViewAvailableCommand
+deactivate ModelManager
+
+
+ViewAvailableCommand -> ModelManager : addAvailableTimeslot(Timeslot timeslot)
+activate ModelManager
+
+ModelManager -> ClinicAssistant : addAvailableTimeslot(timeslot)
+activate ClinicAssistant
+
+ClinicAssistant -> UniqueTimeslotList : add(timeslot)
+activate UniqueTimeslotList
+
+UniqueTimeslotList -> ClinicAssistant
+deactivate UniqueTimeslotList
+
+ClinicAssistant -> ModelManager
+deactivate ClinicAssistant
+
+ModelManager -> ModelManager : updateFilteredAvailableTimeslot(Predicate)
+activate ModelManager
+
+ModelManager -> FilteredList : setPredicate(Predicate)
+activate FilteredList
+
+FilteredList -> ModelManager
+deactivate FilteredList
+
+ModelManager -> ModelManager
+deactivate ModelManager
+
+ModelManager -> ViewAvailableCommand
+deactivate ModelManager
+
+create CommandResult
+ViewAvailableCommand -> CommandResult : new CommandResult(AVAILABLE_TIMESLOTS)
+activate CommandResult
+
+CommandResult -> ViewAvailableCommand
+deactivate CommandResult
+
+ViewAvailableCommand -> LogicManager : commandResult
+deactivate ViewAvailableCommand
+
+[<--LogicManager : commandResult
+deactivate LogicManager
+@enduml

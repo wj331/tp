@@ -217,8 +217,6 @@ The proposed delete mechanism is facilitated by `DeleteCommand` and the `LogicMa
 Clinic staff can enter `delete 3` which deletes all information of the person in the list, including their details and appointment.
 The following sequence diagram shows how the DeleteCommand class works.
 
-<puml src="diagrams/DeleteCommandDiagram.puml" alt="DeleteCommand UML" />
-
 **Note:** If the index of patient to be deleted is less than 1 or exceeds the number of patients in the List then deleteCommand is going to fail.
 
 #### Design considerations:
@@ -232,6 +230,9 @@ The following sequence diagram shows how the DeleteCommand class works.
 * **Alternative 2:** Delete based on name of patient
     * Pros: Will be more accurate when deleting a patient
     * Cons: Takes more time as need to type out names of patient when deleting and length of names may vary from person to person
+
+<puml src="diagrams/DeleteCommandDiagram.puml" alt="DeleteCommand UML" />
+The above shows the UML diagram of the delete patient feature.
 
 ### List feature
 
@@ -377,6 +378,35 @@ After receiving the users input, the `EditAppointmentCommandParser` parses the g
 * **Alternative 2:** An additional Index field of the Patients Index is to be given, followed by his/her Appointment to edit
     * Pros: Appointment to be edited is specified to the specific Patient index input
     * Cons: Harder for the user to visualise which Appointment he is going to edit
+
+### View available timeslots by date feature
+
+#### Implementation
+
+The view available timeslots by date feature built on the viewAvailable command. The `view /on DATE` command will list out
+all available timeslots on that given date which the user can book appointments with.
+
+To implement the view available timeslots by date command, we have to update the predicate for the filtered list of
+timeslots to show on the frontend. We had to update the appointment list based on a Predicate with the given date, 
+and subsequently retrieve the timeslot which is already booked, before we determine the available timeslots for that day.
+
+The view available timeslot command is extended to also filter the appointment list shown on the frontend
+based on the given date and updates it together. Any slots shown on the available timeslot list can be used by the user
+to book appointments subsequently.
+
+#### Alternatives considered
+
+**Aspect: How to implement the view available timeslots by date command:**
+
+* **Alternative 1 (current choice):** View available timeslot command takes in different parameters such as Predicate 
+* which contains the date we want to filter for
+    * Pros: Less coupling, less dependencies on other classes
+    * Cons: Harder to implement
+
+* **Alternative 2:** Use find appointment command directly and find appointments already booked on that day before 
+* deriving available timeslots
+    * Pros: Easier to implement
+    * Cons: Increases coupling between classes such as with the find appointment command
 
 ## **Planned enhancements**
 
