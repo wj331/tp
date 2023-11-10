@@ -523,6 +523,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 3. Clinic staff inserts the patient's details
 4. ClinicRecords retrieves the patient's information for the clinic staff
 
+    Use case ends.
+
 **Extensions**
 
 * 3a. The patient cannot be found
@@ -533,24 +535,43 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  User requests to list patients
-2.  ClinicRecords shows a list of patients
-3.  User requests to delete a specific person in the list
-4.  ClinicRecords deletes the person
+1.  	User requests to list all patients.
+2.  	ClinicAssistant returns a list of all patients from the database.
+3.  	User requests to delete a specific person in the list with his index.
+4.  	ClinicAssistant deletes the person from the database.
 
-    Use case ends.
+      Use case ends.
 
 **Extensions**
+* 3a. The input index is invalid.
+    * 3a1. ClinicAssistant shows an error message.
+    * 3a2. User enters new index.
+  Steps 3a1-3a2 repeated until the index entered is correct.
+      Use case resumes at step 4.
 
-* 2a. The list is empty.
+**Use case 5: Viewing available timeslots**
 
-  Use case ends.
+**MSS**
 
-* 3a. The given input is invalid.
+1.  	User needs to book an appointment for a patient.
+2.  	User chooses a date and enters it.
+3.  	ClinicAssistant returns a list of available timeslots on that date.
+4.  	User finds an available timeslot from the given list.
+5.      User proceeds proceed to book an appointment for the patient on that specific date and timeslot
 
-    * 3a1. ClinicRecords shows an error message.
+      Use case ends.
 
-      Use case resumes at step 2.
+**Extensions**
+* 2b. Date entered is invalid
+    * 2b1. ClinicAssistant shows an error message and requests for correct date.
+    * 2b2. User enters a new date.
+      Steps 2b1 - 2b2 are repeated until date entered is correct
+    Use case resumes at step 3.
+  
+* 3a. ClinicAssistant returns an empty list of available timeslots
+    * 3a1. User now has to enter a new date
+      Step 3a1 is repeated until date entered has list of at least 1 available timeslot
+    Use case resumes at step 4.
 
 *{More to be added}*
 
