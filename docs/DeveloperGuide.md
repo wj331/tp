@@ -214,10 +214,10 @@ The delete Doctor command does the opposite — it calls deleteDoctor(INDEX)
 #### \[Proposed\] Implementation
 
 The proposed delete mechanism is facilitated by `DeleteCommand` and the `LogicManager` Class.
-Clinic staff can enter `delete 3` which deletes all information of the person in the list, including their details and appointment.
+User can enter `delete 3` which deletes all information, including appointments and details, of the person in the list.
 The following sequence diagram shows how the DeleteCommand class works.
 
-<puml src="diagrams/DeleteCommandDiagram.puml" alt="DeleteCommand UML" />
+<diag src="diagrams/DeleteCommandDiagram" alt="DeleteCommand UML" />
 
 **Note:** If the index of patient to be deleted is less than 1 or exceeds the number of patients in the List then deleteCommand is going to fail.
 
@@ -377,6 +377,30 @@ After receiving the users input, the `EditAppointmentCommandParser` parses the g
 * **Alternative 2:** An additional Index field of the Patients Index is to be given, followed by his/her Appointment to edit
     * Pros: Appointment to be edited is specified to the specific Patient index input
     * Cons: Harder for the user to visualise which Appointment he is going to edit
+
+### View Available Timeslots feature
+
+#### Implementation
+
+The view available timeslots mechanism is facilitated by the `UniqueTimeslotList` class. 
+A `view` command input takes in a date and displays all available timeslots for that date. This is mainly used by users 
+to identify available timeslots in an instant which they can use to book appointments on.
+
+After receiving the users input, the `ViewAvailableCommandParser` parses the given input to return a `ViewAvailableCommand` instance which will then be executed.
+
+**Note:** If the date provided is invalid (non-existent date (eg 31-02-2024), or any date that has past)), the command will fail.
+
+#### Design considerations:
+
+**Aspect: What Timeslots will be added:**
+
+* **Alternative 1 (current choice):** Loop through all appointments in the appointment list and only add timeslots which are available
+    * Pros: Allows to retrieve the latest appointments and add available timeslots accurately
+    * Cons: Increased coupling between timeslots and appointment
+
+* **Alternative 2:** Add the time from appointments directly without any timeslot
+    * Pros: Easier to implement as we only need to get time from appointment directly
+    * Cons: Harder for user to visualise exactly which timeslot is available and can be used to book appointments
 
 ## **Planned enhancements**
 

@@ -68,10 +68,10 @@ deactivate FilteredPersonList
 DeleteCommand --> ModelManager : deletePerson(p)
 activate ModelManager
 
-ModelManager -->  ClinicAssistant :removePerson(p)
+ModelManager ->  ClinicAssistant :removePerson(p)
 activate ClinicAssistant
 
-ClinicAssistant --> UniquePersonList :remove(p)
+ClinicAssistant -> UniquePersonList :remove(p)
 activate UniquePersonList
 
 UniquePersonList --> ClinicAssistant
