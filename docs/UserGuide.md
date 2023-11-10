@@ -252,7 +252,6 @@ Displays all **available** timeslots on the specified date by the user.
 Format: `view /on DATE`
 
 * Displays all available timeslots that can be booked on the `DATE`.
-* The `DATE` **must be a valid date on the calendar in the form `dd-MM-yyyy` exactly**
 * Timeslots for appointments are fixed at 1 hour each, **starting from 9AM to 5PM**
 * Any Timeslot that is displayed after calling `view /on DATE` can be booked
 
@@ -262,6 +261,8 @@ Examples:
 
 **Note:**
 * There should not be any timings after `DATE`. e.g. `dd-MM-yyyy 18:00` will return an error.
+* The `DATE` **must be a valid date on the calendar in the form `dd-MM-yyyy` exactly**
+* The `DATE` entered should not be a present or future date.
 * The `DATE` should be entered in exactly `dd-MM-yyyy` format separated by a `-` and not anything else such as `/`…​
 
 ### Clearing all patients : `clear`
