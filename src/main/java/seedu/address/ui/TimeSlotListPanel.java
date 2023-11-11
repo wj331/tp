@@ -44,6 +44,7 @@ public class TimeSlotListPanel extends UiPart<Region> {
             if (empty || timeslot == null) {
                 setGraphic(null);
                 setText(null);
+                date.setText("Timeslot tab is deactivated!");
             } else {
                 setGraphic(new TimeSlotCard(timeslot).getRoot());
                 date.setText("Available slots on " + timeslot.getDate().toString());
