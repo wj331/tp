@@ -35,17 +35,18 @@ Code contributed: [RepoSense link](https://nus-cs2103-ay2324s1.github.io/tp-dash
 <br>
 
 ### Contributions to the UG
-- Adding pictures for examples of commands in the UG
-- Steps for using the `list_appt` command
-- Steps for using the `find_appt` command
-`to be added soon`
+- Target audience
+- Explanation for using the `list_appt` command
+- Explanation for using the `find_appt` command
 <br>
 
 ### Contributions to the DG
-- Implementation of list_appt command and alternatives considered
-- Implementation of find_appt command and alternatives considered
+- Implementation of list feature and alternatives considered
+- Use case of editing details of a patient
+- Manual testing for editing a patient's details
+- Planned enhancement to allow different doctors to have appointment slots at the same timing
+- Planned enhancement to change the tab to the corresponding tab of the command
 <br>
-`to be added soon`
 
 ### Contributions to team-based tasks
 - Set up GitHub organisation and tP repo.
@@ -55,7 +56,7 @@ Code contributed: [RepoSense link](https://nus-cs2103-ay2324s1.github.io/tp-dash
 
 ### Review/mentoring contributions
 - Regularly reviewed teammates PR's, as well as highlighting of bugs and its appropriate fixes.
-- Pull Requests reviewed: 18 [(Github)](https://github.com/AY2324S1-CS2103T-W09-3/tp/pulls?q=is%3Apr+is%3Aclosed+reviewed-by%3Atohpinren)
+- Pull Requests reviewed: 19 [(Github)](https://github.com/AY2324S1-CS2103T-W09-3/tp/pulls?q=is%3Apr+is%3Aclosed+reviewed-by%3Atohpinren)
 <br>
 
 ### Contributions beyond the project team

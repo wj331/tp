@@ -50,7 +50,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[portfolio](team/tohpinren.md)]
 
 * Role: Developer
-* Responsibilities: Add Lists
+* Responsibilities: List commands, Find Appointments, Integrate Appointments frontend
 
 ### Yip Sin Hang
 
