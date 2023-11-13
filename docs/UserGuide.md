@@ -631,6 +631,7 @@ Format: `view /on DATE`
 
 * Displays all available timeslots that can be booked on the `DATE` under the `Timeslots` tab.
 * Any Timeslot displayed under the `Timeslot` tab can be used to book an appointment.
+* At the same time, Appointments Tab will also filter to display all appointments on that `DATE` only.
 
 After calling the command, click on the timeslot tab to see something similar to the below:
 ![View_Available_Timeslots](images/view.png)
@@ -640,15 +641,13 @@ After calling the command, click on the timeslot tab to see something similar to
 **Note:**
 * The `DATE` **must be a valid date** on the calendar in the **exact** format `dd-MM-yyyy`.
 * Timeslots for appointments are fixed at 1 hour each, **starting from 9AM to 5PM**.
-* The **very first time** this command is called, the header showing the date will **not** be shown (refer to known issues).
-* Header will be shown for every subsequent view command.
   </box>
 
 <box type="warning" seamless>
 
 **Warning:**
-* Clearing all patients will clear the available timeslots too.
-* The `Timeslot` tab will be **deactivated** whenever there is **no available timeslots**. Please enter the command to activate it again when there is at least 1 timeslot.
+* The **very first time** this command is called, the date will **not** be shown since it is not ambiguous (refer to known issues).
+* The `Timeslot` tab will be **deactivated** whenever there is **no available timeslots**. Please enter the command to activate it again when there is at least 1 available timeslot.
   </box>
 
 Examples:<br>
@@ -705,9 +704,9 @@ If your changes to the data file makes its format invalid, ClinicAssistant will 
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous ClinicAssistant home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous ClinicAssistant home folder.<br>
 **Q**: How do I know why my input is invalid? <br>
-**A**: Ouput messages explaining the reason for error will be shown in the output display box. Otherwise, our user guide has some examples of invalid inputs and possible reasons these inputs may be erratic.
+**A**: Output messages explaining the reason for error will be shown in the output display box. Otherwise, our user guide has some examples of invalid inputs and possible reasons these inputs may be erratic.
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -715,7 +714,7 @@ If your changes to the data file makes its format invalid, ClinicAssistant will 
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **When calling `view` command for the very first time**, there will be no header showing the specified date as there is no ambiguity as to which date the user is searching for. Only on subsequent calls will the header be shown.
+2. **When calling `view` command for the very first time**, there will be no header showing the specified date as there is no ambiguity as to which date the user is searching for. The header date will only be shown on subsequent calls of the view command.
 
 <hr style="border:1px solid gray">
 
