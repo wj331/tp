@@ -22,6 +22,7 @@ Base code adapted from [AY23/24 CS2103T Github](https://github.com/nus-cs2103-AY
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Design**
 
@@ -65,6 +66,8 @@ For example, the `Logic` component defines its API in the `Logic.java` interface
 
 The sections below give more details of each component.
 
+<div style="page-break-after: always;"></div>
+
 ### UI component
 
 The **API** of this component is specified in [`Ui.java`](https://github.com/AY2324S1-CS2103T-W09-3/tp/blob/master/src/main/java/seedu/address/ui/Ui.java)
@@ -81,6 +84,8 @@ The `UI` component,
 * listens for changes to `Model` data so that the UI can be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
 * depends on some classes in the `Model` component, as it displays `Person`, `Appointment`, `Doctor`, and `TimeSlot` object residing in the `Model`.
+
+<div style="page-break-after: always;"></div>
 
 ### Logic component
 
@@ -114,6 +119,8 @@ How the parsing works:
 * When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
+<div style="page-break-after: always;"></div>
+
 ### Model component
 **API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
 
@@ -135,6 +142,7 @@ The `Model` component,
 
 </box>
 
+<div style="page-break-after: always;"></div>
 
 ### Storage component
 
@@ -152,6 +160,7 @@ The `Storage` component,
 Classes used by multiple components are in the `seedu.addressbook.commons` package.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Implementation**
 
@@ -200,6 +209,7 @@ The sequence diagram below shows how the add command works: <br>
 * Cons: Less adaptable for future developments involving the Appointment Class.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Edit feature
 
@@ -252,6 +262,7 @@ to change the description and date of the first appointment on the list.
     * Cons: Harder for the user to visualise which Appointment he is going to edit
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Delete Patient feature
 
@@ -297,6 +308,7 @@ The following sequence diagram shows how the `DeleteCommand` class works.
     * Cons: User will face issues when trying to delete patients with the same name.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Delete Appointment feature
 
@@ -347,6 +359,7 @@ The following sequence diagram shows how the `DeleteAppointmentCommand` class wo
     * Cons: Will be harder to implement.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### List feature
 
@@ -386,6 +399,7 @@ appointments in the database.
     * Cons: Will be slower because we have to iterate through all the `Person` objects to get the appointments each time
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Find feature
 
@@ -432,6 +446,7 @@ The user can also execute `find_appt /n Alex` to find all appointments for Alex.
     * Cons: Too many prefixes to type in one command if we want to find by multiple fields, which can make the command very long.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### View Available Timeslots feature
 
@@ -476,6 +491,7 @@ Step 5. The execution of the `ViewAvailableTimeslot` calls `Model#updateFiltered
     * Cons: Harder for user to visualise exactly which timeslot is available and can be used to book appointments.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Documentation, logging, testing, configuration, dev-ops**
 
@@ -521,7 +537,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | clinic assistant             | edit a doctor's information                 | update any changes to doctors in the clinic            |
 | `* *`    | clinic assistant             | edit a patient's information                | update any changes to patients in the clinic           |
 
-*{More to be added}*
+<div style="page-break-after: always;"></div>
 
 ### Use cases
 
@@ -716,7 +732,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use Case resumes at step 8.
 
-*{More to be added}*
+<div style="page-break-after: always;"></div>
 
 ### Non-Functional Requirements
 
@@ -736,6 +752,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Appendix: Instructions for manual testing**
 
@@ -925,6 +942,7 @@ testers are expected to do more *exploratory* testing.
 1. _{ more test cases …​ }_
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Appendix: Planned Enhancements**
 In the near future, we hope to be able to enhance our application as stated below.
@@ -1045,6 +1063,7 @@ To implement this, there needs to be a back end change in the view available com
 * Whenever a view command is called, display all time intervals which the doctor is free.
     * Pros: Clinic assistant can view the time interval and book the appointment as necessary.
     * Cons: Difficult to implement.
+<div style="page-break-after: always;"></div>
 
 ## **Appendix: Future Features**
 
@@ -1068,6 +1087,7 @@ This will create a new Doctor Object and transfer over all the information that 
     * Cons: Risk introducing unexpected bug as Doctor is no longer immutable
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Appendix: Effort**
 

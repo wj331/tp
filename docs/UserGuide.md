@@ -43,6 +43,7 @@ It ensures efficient adding, editing and finding of patient information, optimis
     - [Command summary](#command-summary)
 
 <hr style="border:1px solid gray">
+<div style="page-break-after: always;"></div>
 
 ### Target Audience
 
@@ -58,6 +59,7 @@ ClinicAssistant allows clinic staff to add, edit, delete, find and list patients
 | returning user |      skip to our [command summary](#command-summary) for an in-depth summary of all our features!       |
 
 <hr style="border:1px solid gray">
+<div style="page-break-after: always;"></div>
 
 ## GUI explanation
 
@@ -65,6 +67,7 @@ In order to have a better experience in using **ClinicAssistant**, please take a
 ### Main Window
 ![GUI1](images/GUI1.png)
 ![GUI2](images/GUI6.png)
+<div style="page-break-after: always;"></div>
 
 | GUI element (red) |                                            Description                                            |
 |:-----------------:|:-------------------------------------------------------------------------------------------------:|
@@ -90,6 +93,7 @@ In order to have a better experience in using **ClinicAssistant**, please take a
 |          Date          |                                 Shows the date of the time slots shown                                  |
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Patient Card
 ![GUI3](images/PatientGUI2.png)
@@ -100,11 +104,13 @@ In order to have a better experience in using **ClinicAssistant**, please take a
 ![GUI4](images/DoctorGUI.png)
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Appointment Card
 ![GUI5](images/AppointmentGUI.png)
 
 <hr style="border:1px solid gray">
+<div style="page-break-after: always;"></div>
 
 ## Quick start
 
@@ -116,7 +122,8 @@ In order to have a better experience in using **ClinicAssistant**, please take a
 
 1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar clinicassistant.jar` command to run the application.
    A GUI similar to the below should appear in a few seconds. <br>
-   ![Ui](images/Ui.png)
+   
+![Ui](images/Ui.png)
 
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
@@ -139,6 +146,7 @@ In order to have a better experience in using **ClinicAssistant**, please take a
 1. Refer to the [Features](#features) below for details of each command.
 
 <hr style="border:1px solid gray">
+<div style="page-break-after: always;"></div>
 
 ## Features
 
@@ -168,6 +176,7 @@ In order to have a better experience in using **ClinicAssistant**, please take a
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Adding a patient: `add`
 
@@ -199,6 +208,7 @@ Examples:
 ![patientfailure](images/patient_error.png)
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Adding a doctor: `add_doctor`
 
@@ -230,8 +240,9 @@ Examples:
 * Valid input: `add_doctor /n Dr Lee /p 81824444 /e drlee@gmail.com /g M /age 30 /a 901 Shelby Drive`
     * Output (success): <br>
       `New Doctor added: Dr Lee | Phone: 81824444 | Email: drlee@gmail.com | Gender: M | Age: 30 | Address: 901 Shelby Drive`
-![doctor success](images/add_doc.png)
-    * 
+
+  ![doctor success](images/add_doc.png)
+  
 * Invalid input (missing fields): `add_doctor /n Dr Lee`
     * Output (failure): <br>
       `Invalid command format!` <br>
@@ -241,6 +252,7 @@ Examples:
     * **To fix:** Add in the missing mandatory fields.
 ![doctor failure](images/add_doc_err1.png)
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Adding an appointment: `appt`
 
@@ -294,6 +306,7 @@ Examples:
 ![apptFail](images/appt_error2.png)
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Listing all patients : `list`
 
@@ -328,6 +341,7 @@ Example:
         All conditions are removed and all appointments are showed.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Editing a patient: `edit`
 
@@ -358,6 +372,7 @@ Examples:
   `Edited Person: Betsy Crower | Phone: 99272758 | Email: berniceyu@example.com | Gender: F | Age: 16 | Ethnic: Chinese | NRIC: T1231437E | Address: Blk 30 Lorong 3 Serangoon Gardens, #07-18 | Tags: `
 ![edit success2](images/edit_fail.png)
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Editing an appointment: `edit_appt`
 
@@ -393,6 +408,7 @@ Examples:
     * **To fix:** Enter a valid `DATE_TIME` in dd-MM-yyy HH:mm format.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Deleting a patient : `delete`
 
@@ -440,6 +456,7 @@ Examples:
       `INDEX entered must be an integer!.` <br>
     * **To fix**: Enter an `INDEX` that that is an integer.
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Deleting a doctor : `delete_doctor`
 
@@ -483,6 +500,7 @@ Examples:<br>
     * **To fix**: Enter an `INDEX` displayed in `Doctors` tab.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Deleting an appointment : `delete_appt`
 
@@ -517,6 +535,7 @@ Examples:<br>
 
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Finding patient details by name: `find`
 
@@ -537,6 +556,7 @@ Examples:
     `1 patient found!`
 ![find](images/find.png)
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Finding patient details by nric: `find_nric`
 
@@ -566,6 +586,7 @@ Examples:
     * **To fix**: Enter a valid NRIC format.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Finding appointment by patient name or date: `find_appt`
 
@@ -622,6 +643,7 @@ Examples:
 ![findapptFailure2](images/findappt_error2.png)
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Viewing available timeslots : `view`
 
@@ -668,6 +690,7 @@ Examples:<br>
       ![View_Available_error](images/view_err2.png)
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Clearing all patients : `clear`
 
@@ -690,6 +713,7 @@ Format: `exit`
 ClinicAssistant data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Editing the data file
 
@@ -717,6 +741,7 @@ If your changes to the data file makes its format invalid, ClinicAssistant will 
 2. **When calling `view` command for the very first time**, there will be no header showing the specified date as there is no ambiguity as to which date the user is searching for. The header date will only be shown on subsequent calls of the view command.
 
 <hr style="border:1px solid gray">
+<div style="page-break-after: always;"></div>
 
 ## Command summary
 
