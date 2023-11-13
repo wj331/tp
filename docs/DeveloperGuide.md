@@ -456,11 +456,11 @@ The available timeslots not in the appointment list is added to the `UniqueTimes
 
 Step 5. The execution of the `ViewAvailableTimeslot` calls `Model#updateFilteredAvailableTimeslot` to update the new list of available timeslots in the Timeslots tab.
 
-<img src="images/ViewAvailableCommandSequenceDiagram.png" width="1000px">
+<puml src="diagrams/ViewAvailableDiagram.puml" alt="ViewAvailableCommand UML" width = "100000" />
 
 **Note:**
 * The lifeline for `ViewAvailableCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-* As method names for this feature is a little long, due to the limitation of PlantUML, kindly zoom in/scroll right to have a better view of this sequence diagram.
+* As method names for this feature is a little long, due to the limitation of PlantUML, kindly zoom in to have a better view of this sequence diagram.
   </box>
 
 #### Design considerations:
