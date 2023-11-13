@@ -458,6 +458,11 @@ Step 5. The execution of the `ViewAvailableTimeslot` calls `Model#updateFiltered
 
 <img src="images/ViewAvailableCommandSequenceDiagram.png" width="1000px">
 
+**Note:**
+* The lifeline for `ViewAvailableCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+* As method names for this feature is a little long, due to the limitation of PlantUML, kindly zoom in/scroll right to have a better view of this sequence diagram.
+  </box>
+
 #### Design considerations:
 
 **Aspect: What Timeslots will be added:**
@@ -596,8 +601,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 5.
 
-**Use case 5: Delete a patient**
-
+**Use case 5: Delete a patient** <br>
+**Actor:** Clinic staff <br>
 **MSS**
 
 1. User requests to list all patients.
@@ -615,14 +620,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 4.
 
-**Use case 6: Viewing available timeslots to book appointment**
-
+**Use case 6: Viewing available timeslots to book appointment** <br>
+**Actor:** Clinic staff, Patient <br>
 **MSS**
 
 1. User needs to book an appointment for a patient.
 2. User chooses a date and enters it.
 3. ClinicAssistant returns a list of available timeslots on that date.
-4. User finds an available timeslot from the given list. 
+4. User finds an available timeslot from the given list.
 5. User proceeds to book an appointment for the patient on that specific date and timeslot
 
    Use case ends.
@@ -630,7 +635,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Extensions**
 * 2b. Date entered is invalid.
     * 2b1. ClinicAssistant shows an error message and requests for correct date.
-    * 2b2. User enters a new date. 
+    * 2b2. User enters a new date.
     * Steps 2b1 - 2b2 are repeated until date entered is correct.
 
       Use case resumes at step 3.
@@ -641,9 +646,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 4.
 
-**Use case 6: Add a doctor**
-**Actor:** Clinic staff, Doctor
-**Preconditions:** there is no doctor with the exact same name already in the system.
+**Use case 6: Add a doctor** <br>
+**Actor:** Clinic staff, Doctor <br>
+**Preconditions:** there is no doctor with the exact same name already in the system. <br>
 **MSS**
 
 1. A doctor joins the clinic.
@@ -653,7 +658,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 5. ClinicAssistant adds this new doctor into the ClinicRecords.
 6. ClinicAssistant shows a confirmation message.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions:**
 * 4a. ClinicAssistant detects an error in the entered information.
@@ -663,9 +668,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     
       Use Case resumes at step 5.
 
-**Use case 7: Delete a doctor**
-**Actor:** Clinic staff, Doctor(multiple doctors)
-**Preconditions:** at least one Doctor is in the system.
+**Use case 7: Delete a doctor** <br>
+**Actor:** Clinic staff, Doctor(multiple doctors) <br>
+**Preconditions:** at least one Doctor is in the system. <br>
 
 **MSS**
 
@@ -686,9 +691,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   
       Use Case resumes at step 6.
 
-**Use case 8: Delete an appointment**
-**Actor:** Clinic staff, Patient
-**Preconditions:** at least one Doctor is in the system, the Patient is already in the system, the appointment exists in the system.
+**Use case 8: Delete an appointment** <br>
+**Actor:** Clinic staff, Patient <br>
+**Preconditions:** at least one Doctor is in the system, the Patient is already in the system, the appointment exists in the system. <br>
 
 **MSS**
 
