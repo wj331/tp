@@ -10,7 +10,7 @@ ClinicAssistant is a desktop app that offers seamless patient contact management
 optimized for use via a CLI while still having the benefits of a Graphical User Interface (GUI). 
 If you can type fast, ClinicAssistant can get your patient record management tasks done faster than traditional pen-and-paper methods. 
 It ensures efficient adding, editing and finding of patient information, optimising clinic operations.
-<!-- * Table of Contents -->
+
 - **Introduction**
     - [Target Audience](#target-audience)
     - [How to Use the Guide](#how-to-use-the-guide)<br>
@@ -18,7 +18,7 @@ It ensures efficient adding, editing and finding of patient information, optimis
     - [Quick start](#quick-start)<br>
 
 - **Features and Commands**
-    - [Adding a person: `add`](#adding-a-person-add)
+    - [Adding a patient: `add`](#adding-a-patient-add) 
     - [Adding a doctor: `add_doctor`](#adding-a-doctor-add-doctor)
     - [Adding an appointment: `appt`](#adding-an-appointment-appt)
     - [Listing all patients : `list`](#listing-all-patients-list)
@@ -42,9 +42,8 @@ It ensures efficient adding, editing and finding of patient information, optimis
     - [Known issues](#known-issues)
     - [Command summary](#command-summary)
 
-<page-nav-print />
-
 <hr style="border:1px solid gray">
+<div style="page-break-after: always;"></div>
 
 ### Target Audience
 
@@ -60,13 +59,15 @@ ClinicAssistant allows clinic staff to add, edit, delete, find and list patients
 | returning user |      skip to our [command summary](#command-summary) for an in-depth summary of all our features!       |
 
 <hr style="border:1px solid gray">
+<div style="page-break-after: always;"></div>
 
 ## GUI explanation
 
 In order to have a better experience in using **ClinicAssistant**, please take a look at this explanation of the GUI.
 ### Main Window
 ![GUI1](images/GUI1.png)
-![GUI2](images/GUI3.png)
+![GUI2](images/GUI6.png)
+<div style="page-break-after: always;"></div>
 
 | GUI element (red) |                                            Description                                            |
 |:-----------------:|:-------------------------------------------------------------------------------------------------:|
@@ -89,8 +90,10 @@ In order to have a better experience in using **ClinicAssistant**, please take a
 |      Doctor Card       | A card that shows information on doctors such as name, gender, email, age, address, and contact number. |
 |  Timeslot List Panel   |                   A Panel that contains a list of empty Timeslots inside the system.                    |
 |     Timeslot Card      |                                A card that shows what timeslot is free.                                 |
+|          Date          |                                 Shows the date of the time slots shown                                  |
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Patient Card
 ![GUI3](images/PatientGUI2.png)
@@ -101,11 +104,13 @@ In order to have a better experience in using **ClinicAssistant**, please take a
 ![GUI4](images/DoctorGUI.png)
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Appointment Card
 ![GUI5](images/AppointmentGUI.png)
 
 <hr style="border:1px solid gray">
+<div style="page-break-after: always;"></div>
 
 ## Quick start
 
@@ -117,7 +122,8 @@ In order to have a better experience in using **ClinicAssistant**, please take a
 
 1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar clinicassistant.jar` command to run the application.
    A GUI similar to the below should appear in a few seconds. <br>
-   ![Ui]()
+   
+![Ui](images/Ui.png)
 
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
@@ -140,6 +146,7 @@ In order to have a better experience in using **ClinicAssistant**, please take a
 1. Refer to the [Features](#features) below for details of each command.
 
 <hr style="border:1px solid gray">
+<div style="page-break-after: always;"></div>
 
 ## Features
 
@@ -169,8 +176,9 @@ In order to have a better experience in using **ClinicAssistant**, please take a
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
-### Adding a person: `add`
+### Adding a patient: `add`
 
 Adds a patient to the clinic records.
 
@@ -188,13 +196,19 @@ Examples:
 * Valid input: `add /n Drizzy /p 99090909 /e drake@gmail.com /g F /age 18 /eth Chinese /ic T0123456E /a 901 Shelby Dr`
   * Output (success): <br>
     `New person added: Drizzy | Phone: 99090909 | Email: drake@gmail.com | Gender: F | Age: 18 | Ethnic: Chinese | NRIC: T0123456E | Address: 901 Shelby Dr | Tags:` 
+
+![patientsuccess](images/patient_success.png)
+
 * Invalid input (missing fields): `add /n Drizzy`
   * Output (failure): <br>
   `Invalid command format!` <br>
   `add: Adds a person to the address book. Parameters: /n NAME /p PHONE /e EMAIL /g GENDER /age AGE /eth ETHNICITY /ic NRIC NO. /a ADDRESS [/t TAG]...`
   * **To fix:** Add in the missing mandatory fields.
-  
+
+![patientfailure](images/patient_error.png)
+
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Adding a doctor: `add_doctor`
 
@@ -226,6 +240,9 @@ Examples:
 * Valid input: `add_doctor /n Dr Lee /p 81824444 /e drlee@gmail.com /g M /age 30 /a 901 Shelby Drive`
     * Output (success): <br>
       `New Doctor added: Dr Lee | Phone: 81824444 | Email: drlee@gmail.com | Gender: M | Age: 30 | Address: 901 Shelby Drive`
+
+  ![doctor success](images/add_doc.png)
+  
 * Invalid input (missing fields): `add_doctor /n Dr Lee`
     * Output (failure): <br>
       `Invalid command format!` <br>
@@ -233,8 +250,9 @@ Examples:
       `Parameters: /n NAME /p PHONE /e EMAIL /g GENDER /age AGE /a ADDRESS` <br>
       `Example: add_doctor /n John Doe /p 98765432 /e johnd@example.com /g M /age 22 /a 311, Clementi Ave 2, #02-25` <br>
     * **To fix:** Add in the missing mandatory fields.
-
+![doctor failure](images/add_doc_err1.png)
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Adding an appointment: `appt`
 
@@ -266,6 +284,8 @@ Examples:
 * Valid input: `appt /for 1 /doc 1 /d Blood test /on 01-01-2024 12:00`
     * Output (success): <br>
       `New appointment added | Patient: Alex Yeoh | Description: Blood test | Date: 01 Jan 2024 12.00 PM`
+
+![apptSuccess](images/appt_success.png)
 * Invalid input 1 (`DESCRIPTION` not provided): `appt /for 1 /doc 1 /on 01-01-2024 12:00`
     * Output (failure): <br>
       `Invalid command format! ` <br>
@@ -274,14 +294,19 @@ Examples:
       `Example: appt /for 1 /doc 1 /d x-ray scan /on 02-01-2024 12:00`<br>
     * **To fix:** Add in the missing description field.
 
+![apptFail](images/appt_error.png)
+
 * Invalid input 2 (invalid `DATE_TIME`): `appt /for 1 /doc 1 /d Blood test /on tuesday`
     * Output (failure): <br>
       `Date must be in dd-MM-yyyy HH:mm format.` <br>
       `Date & time must be after the current time.` <br>
       `Time of appointment must be on the hour, between 9 AM and 5 PM inclusive.` <br>
     * **To fix:** Enter a valid `DATE_TIME` in dd-MM-yyy HH:mm format.
+      
+![apptFail](images/appt_error2.png)
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Listing all patients : `list`
 
@@ -316,6 +341,7 @@ Example:
         All conditions are removed and all appointments are showed.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Editing a patient: `edit`
 
@@ -340,11 +366,13 @@ Examples:
 * Valid input 1: `edit 1 /p 91234567 /e johndoe@example.com`
     * Output (success): <br>
   `Edited Person: Alex Yeoh | Phone: 91234567 | Email: johndoe@example.com | Gender: M | Age: 21 | Ethnic: Chinese | NRIC: T1341367E | Address: Blk 30 Geylang Street 29, #06-40 | Tags:`
+![edit success](images/edit_success.png)
 * Valid input 2: `edit 2 /n Betsy Crower /t`
   * Output (success): <br>
   `Edited Person: Betsy Crower | Phone: 99272758 | Email: berniceyu@example.com | Gender: F | Age: 16 | Ethnic: Chinese | NRIC: T1231437E | Address: Blk 30 Lorong 3 Serangoon Gardens, #07-18 | Tags: `
-
+![edit success2](images/edit_fail.png)
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Editing an appointment: `edit_appt`
 
@@ -380,6 +408,7 @@ Examples:
     * **To fix:** Enter a valid `DATE_TIME` in dd-MM-yyy HH:mm format.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Deleting a patient : `delete`
 
@@ -407,7 +436,8 @@ Format: `delete INDEX`
 Examples:
 * Valid input: `delete 1`
     * Output (success): <br>
-      `Deleted Person: Alex Yeoh | Phone: 91234567 | Email: johndoe@example.com | Gender: M | Age: 21 | Ethnic: Chinese | NRIC: T1341367E | Address: Blk 30 Geylang Street 29, #06-40 | Tags: [on antibiotics] from clinic records`
+    `Deleted Person: Alex Yeoh | Phone: 91234567 | Email: johndoe@example.com | Gender: M | Age: 21 | Ethnic: Chinese | NRIC: T1341367E | Address: Blk 30 Geylang Street 29, #06-40 | Tags: [on antibiotics] from clinic records`
+  ![after delete](images/del.png)
 * Invalid input 1 (no `INDEX` provided): `delete `
     * Output (failure): <br>
       `Invalid command format! ` <br>
@@ -415,16 +445,18 @@ Examples:
       `Parameters: INDEX (must be a positive integer in the list)` <br>
       `Example: delete 1`<br>
     * **To fix**: Enter an `INDEX` such as `delete 2`
+    ![delete fail](images/del_fail1.png)
 * Invalid input 2 (`INDEX` out-of-bounds): `delete 10000`
     * Output (failure): <br>
       `The patient index provided is invalid` <br>
     * **To fix**: Enter an `INDEX` displayed in `Patients` tab.
+    ![delete fail 2](images/del_fail2.png)
 * Invalid input 3 (`INDEX` provided as word): `delete one`
     * Output (failure): <br>
       `INDEX entered must be an integer!.` <br>
     * **To fix**: Enter an `INDEX` that that is an integer.
-
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Deleting a doctor : `delete_doctor`
 
@@ -452,12 +484,10 @@ Deleting a doctor deletes his/her appointments too.
 
 
 Examples:<br>
-initial Doctor list:
-![Add_Doctor]()
 * Valid input: `delete_doctor 1`
     * Output (success): <br>
       `Deleted Doctor: Dr Lee | Phone: 81824444 | Email: drlee@gmail.com | Gender: M | Age: 30 | Address: 901 Shelby Drive from clinic records`
-* Invalid input 1 (non-positive integer): `delete_doctor 0`
+* Invalid input 1 (non-positive integer, including strings): `delete_doctor 0`
     * Output (failure): <br>
       `Invalid command format!`<br>
       `delete_doctor: Deletes the doctor with the index number used in the clinic records.`<br>
@@ -470,10 +500,11 @@ initial Doctor list:
     * **To fix**: Enter an `INDEX` displayed in `Doctors` tab.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Deleting an appointment : `delete_appt`
 
-Deletes an appointment from the the clinic records via the specified index.
+Deletes an appointment from the clinic records via the specified index.
 
 Format: `delete_appt INDEX`
 * Deletes the appointment at the specified `INDEX`
@@ -488,24 +519,23 @@ Format: `delete_appt INDEX`
 </box>
 
 Examples:<br>
-initial Appointment list:
-![Add_Appointment](images/Add_Appointment.png)
 * Valid input: `delete_appt 1`
     * Output (success): <br>
-      `Deleted Appointment seedu.address.model.appointment.Appointment{description=description details, dateTime=2024-01-02T12:00} of Alex Yeoh | Phone: 87438807 | Email: alexyeoh@example.com | Gender: M | Age: 21 | Ethnic: Chinese | NRIC: T1341367E | Address: Blk 30 Geylang Street 29, #06-40 | Tags: [friends]`
-* Invalid input 1 (non-positive integer): `delete_appt 0`
-    * Output (failure): <br>
-      `Invalid command format:` <br>
-      `delete_appt: Deletes the Appointment identified by the index number used in the displayed appointments list.` <br>
-      `Parameters: INDEX (must be a positive integer) Example: delete_appt 1`<br>
+      `Deleted Appointment  Patient: Charlotte Oliveiro | Description: x-ray scan | Date: 20 Jan 2024 12.00 PM of Charlotte Oliveiro | Phone: 93210283 | Email: charlotte@example.com | Gender: F | Age: 60 | Ethnic: Eurasian | NRIC: T5443267E | Address: Blk 11 Ang Mo Kio Street 74, #11-04 | Tags: [smoker]`
+* Invalid input 1 (non-positive integer, including strings): `delete_appt 0`
+  * Output (failure): <br>
+    `Invalid command format:` <br>
+    `delete_appt: Deletes the Appointment identified by the index number used in the displayed appointments list.` <br>
+    `Parameters: INDEX (must be a positive integer) Example: delete_appt 1`<br>
    * **To fix**: Enter an `INDEX` displayed in `Appointments` tab.
 * Invalid input (`INDEX` out-of-bounds): `delete_appt 2`
     * Output (failure): <br>
-      `The patient index provided is invalid`<br>
+      `The appointment index provided is invalid`<br>
     * **To fix**: Enter an `INDEX` displayed in `Appointments` tab.
 
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Finding patient details by name: `find`
 
@@ -524,8 +554,9 @@ Examples:
 * Valid input: `find Bernice`
     * Output (success): <br>
     `1 patient found!`
-
+![find](images/find.png)
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Finding patient details by nric: `find_nric`
 
@@ -555,6 +586,7 @@ Examples:
     * **To fix**: Enter a valid NRIC format.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Finding appointment by patient name or date: `find_appt`
 
@@ -590,7 +622,9 @@ Format: `find_appt [/n KEYWORD [MORE_KEYWORDS]...][/on DATE]`
 Examples:
 * Valid input: `find_appt /n Bernice /on 01-01-2024`
     * Output (success): `1 appointment found!` <br>
-      Appointments of patients with name `John` that falls on 1 Jan 2024 is shown.
+
+![findapptSuccess](images/findappt_success.png)
+
 * Invalid input 1 (no prefixes provided): `find_appt`
     * Output (failure): <br>
       `Invalid command format!` <br>
@@ -598,12 +632,18 @@ Examples:
       `Parameters: [/n KEYWORD [MORE_KEYWORDS]...][/on DATE]`<br>
       `Example: find_appt /n alice bob charlie /on 01-01-2024`<br>
     * **To fix**: Enter at least 1 field to find.
+
+![findapptFailure](images/findappt_error.png)
+
 * Invalid input 2 (invalid `DATE`): `find_appt /n John /on 1 Jan 2024`
     * Output (failure): <br>
       `DATE must be in format dd-MM-yyyy` <br>
     * **To fix:** Enter a valid `DATE` in dd-MM-yyy format.
 
+![findapptFailure2](images/findappt_error2.png)
+
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Viewing available timeslots : `view`
 
@@ -613,40 +653,44 @@ Format: `view /on DATE`
 
 * Displays all available timeslots that can be booked on the `DATE` under the `Timeslots` tab.
 * Any Timeslot displayed under the `Timeslot` tab can be used to book an appointment.
+* At the same time, Appointments Tab will also filter to display all appointments on that `DATE` only.
 
-After calling the command, click on the timeslot tab to see a similar picture:
-![View_Available_Timeslots]()
+After calling the command, click on the timeslot tab to see something similar to the below:
+![View_Available_Timeslots](images/view.png)
 
 <box type="info" seamless>
 
 **Note:**
 * The `DATE` **must be a valid date** on the calendar in the **exact** format `dd-MM-yyyy`.
 * Timeslots for appointments are fixed at 1 hour each, **starting from 9AM to 5PM**.
-* The **very first time** this command is called, the header showing the date will **not** be shown (refer to known issues).
-* Header will be shown for every subsequent view command.
   </box>
 
 <box type="warning" seamless>
 
 **Warning:**
-* Clearing all patients will clear the available timeslots too.
-* The `Timeslot` tab will be **deactivated** whenever there is **no available timeslots**. Please enter the command to activate it again when there is at least 1 timeslot.
+* The **very first time** this command is called, the date will **not** be shown since it is not ambiguous (refer to known issues).
+* The `Timeslot` tab will be **deactivated** whenever there is **no available timeslots**. Please enter the command to activate it again when there is at least 1 available timeslot.
   </box>
 
 Examples:<br>
 * Valid input: `view /on 01-01-2024`
     * Output (success): <br>
       `All Available Timeslot(s) on Jan 01, 2024 Listed!`
+  ![View_Available_Timeslots](images/view.png)
+
 * Invalid input 1 (invalid `DATE`): `view /on 02/01/2024`
     * Output (failure): <br>
       `DATE must be in format dd-MM-yyyy` <br>
     * **To fix**: Use `-` as date separator such as `view /on 02-01-2024`
+    ![View_Available_error](images/view_err1.png)
 * Invalid input 2 (`DATE` has past): `view /on 02-01-1999`
     * Output (failure): <br>
       `DATE entered has past already!` <br>
     * **To fix**: Enter a `DATE` that has not passed such as `view /on 01-10-2030`.
+      ![View_Available_error](images/view_err2.png)
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Clearing all patients : `clear`
 
@@ -669,6 +713,7 @@ Format: `exit`
 ClinicAssistant data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### Editing the data file
 
@@ -683,9 +728,9 @@ If your changes to the data file makes its format invalid, ClinicAssistant will 
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous ClinicAssistant home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous ClinicAssistant home folder.<br>
 **Q**: How do I know why my input is invalid? <br>
-**A**: Ouput messages explaining the reason for error will be shown in the output display box. Otherwise, our user guide has some examples of invalid inputs and possible reasons these inputs may be erratic.
+**A**: Output messages explaining the reason for error will be shown in the output display box. Otherwise, our user guide has some examples of invalid inputs and possible reasons these inputs may be erratic.
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -693,9 +738,10 @@ If your changes to the data file makes its format invalid, ClinicAssistant will 
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **When calling `view` command for the very first time**, there will be no header showing the specified date as there is no ambiguity as to which date the user is searching for. Only on subsequent calls will the header be shown.
+2. **When calling `view` command for the very first time**, there will be no header showing the specified date as there is no ambiguity as to which date the user is searching for. The header date will only be shown on subsequent calls of the view command.
 
 <hr style="border:1px solid gray">
+<div style="page-break-after: always;"></div>
 
 ## Command summary
 
@@ -716,5 +762,6 @@ Action     | Format, Examples
 **List**   | `list`
 **View**   | `view /on DATE`<br> e.g., `view /on 02-01-2024`
 **Help**   | `help`
+</hr>
 
 [Back to top](#clinicassistant-user-guide)

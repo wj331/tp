@@ -22,6 +22,7 @@ Base code adapted from [AY23/24 CS2103T Github](https://github.com/nus-cs2103-AY
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Design**
 
@@ -65,22 +66,26 @@ For example, the `Logic` component defines its API in the `Logic.java` interface
 
 The sections below give more details of each component.
 
+<div style="page-break-after: always;"></div>
+
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+The **API** of this component is specified in [`Ui.java`](https://github.com/AY2324S1-CS2103T-W09-3/tp/blob/master/src/main/java/seedu/address/ui/Ui.java)
 
 <puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component"/>
+<br>
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `DoctorlistPanel`, `AppointmentListPanel`, `TimeSlotListPanel`, etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
-
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2324S1-CS2103T-W09-3/tp/blob/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2324S1-CS2103T-W09-3/tp/blob/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
 * executes user commands using the `Logic` component.
 * listens for changes to `Model` data so that the UI can be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
-* depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
+* depends on some classes in the `Model` component, as it displays `Person`, `Appointment`, `Doctor`, and `TimeSlot` object residing in the `Model`.
+
+<div style="page-break-after: always;"></div>
 
 ### Logic component
 
@@ -114,6 +119,8 @@ How the parsing works:
 * When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
+<div style="page-break-after: always;"></div>
+
 ### Model component
 **API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
 
@@ -135,6 +142,7 @@ The `Model` component,
 
 </box>
 
+<div style="page-break-after: always;"></div>
 
 ### Storage component
 
@@ -152,93 +160,206 @@ The `Storage` component,
 Classes used by multiple components are in the `seedu.addressbook.commons` package.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Implementation**
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### Add patient feature
+### Add feature
 
 #### Implementation
 
-This feature deals with adding a patient to the health records database.
+The add feature allows users to add a patient, doctor or appointment to the clinic records.
 
-The fields required when adding a patient are the patient's
-* `Name`
-* `Age`
-* `Gender`
-* `Ethnicity`
-* `Nric`
-* `Phone`
-* `Email`
-* `Address`
+This addition is done using `AddCommand`, `AddDoctorCommand` and `AddAppointmentCommand`.
 
-This feature is facilitated by the `Person` class and the `UniquePersonList`, which extends Iterable<Person>
-and ensures all the Persons in this list is unique.
-The `Person` class stores the required fields of the patient.
+Given below is an example usage scenario for `AddCommand` and how the mechanism behaves at each step.
 
-**The Specifics**
+Step 1. The user launches the application. All patients are shown on the application as an indexed list.
+Step 2. The user executes `add n/David …` to add a new patient. <br>
+Step 3. The `AddCommandParser` checks if the fields are valid, and creates an `AddCommand` object. <br>
+Step 4. This `AddCommand` checks if adding the new Patient will cause duplicate Patients. <br>
+Step 5. The `AddCommand` calls `Model#addPerson()`, which adds the patient to the UniquePersonList in ModelManager. <br>
+Step 6. The application will then save the patient into the `UniquePersonList` and display the patient added. <br>
 
-`AddCommandParser` parses the user-inputted command and creates a `Person` object
-with its required fields, as well as an `AddCommand` that adds this person into the `Model`.
-This `Person` is added into the `UniquePersonList`.
+The sequence diagram below shows how the add command works: <br>
+<puml src="diagrams/AddCommand.puml" alt="AddCommand" />
 
-### Add/delete Doctor feature
+#### Design considerations:
+**Aspect: How a Patient is going to be saved:**
+
+**Alternative 1 (current choice)**: Patient is its own class containing detailed patient information.
+* Pros: Organised using Object-Oriented Paradigms.
+* Cons: Bugs may be tedious to trace.
+
+**Alternative 2:** Patient is just a String with his/her name saved inside an ArrayList.
+* Pros: Will be much simpler to implement and maintain. <br>
+* Cons: Does not mirror real-life scenarios where patients are identified by their unique NRICs,
+  or when patient information needs to be searched for.
+
+**Aspect: Storage of Appointments**
+
+**Alternative 1 (current choice):** Appointment is its own class containing detailed information on the appointment.
+* Pros: Aligned with the approach for patients. Easier to build upon for future implementations.
+* Cons: May introduce complexities and higher lines of code.
+
+**Alternative 2:** Appointments as strings in an ArrayList.
+* Pros: Simpler implementation.
+* Cons: Less adaptable for future developments involving the Appointment Class.
+
+--------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
+
+### Edit feature
 
 #### Implementation
 
- The proposed add/delete Doctor mechanism is facilitated by `UniqueDoctorList` and a `Doctor` Class. `UniqueDoctorList` extends `Iterable<Doctor>` which stores and ensures all the Doctors in this list is unique. Additionally it implements the same operations as the `UniquePersonList`.
- The Doctor class stores the relevant data of the Doctor such as name and gender.
- The following sequence diagram shows how the add Doctor operation works.
+The edit feature allows users to edit a patient or appointment.
+The edit commands make use of the given index identify the patient or appointment to be edited.
+The editing is done through `EditCommand` and `EditAppointmentCommand`.
 
-<puml src="diagrams/AddDoctor.puml" alt="AddDoctor" />
+Given below is an example usage scenario for `EditCommand` and how the mechanism behaves at each step.
 
-The delete Doctor command does the opposite — it calls deleteDoctor(INDEX), which deletes the Doctor from the system by their Index.
+Step 1. The user launches the application. All patients are shown on the application as an indexed list.
 
-**Note:** If the index of either add or delete is less than 1 or exceeds the number of Doctors in the List then the command is going to fail.
+Step 2. The user executes `edit 1 /n John` to edit te first person in the list to have the name `John`.
+The `EditCommandParser` creates an `EditPersonDescriptor` for the `EditCommand`.
+
+Step 3. The `EditCommand` retrieves the old patient from the `Model`
+and creates the edited `Patient` using the `EditPersonDescriptor`.
+
+Step 4. The `EditCommand` checks if the fields are valid and if replacing the edited `Person` will cause duplicate `Person`s.
+
+Step 5. The `EditCommand` calls `Model#setPerson`, which replaces the patient in the `UniquePersonList` in `ModelManager`.
+
+The sequence diagram below shows how the `EditXXXCommandParser` works:
+
+<puml src="diagrams/EditCommandParserSeqDiagram.puml" alt="EditCommandParserSeqDiagram" />
+
+The seqence diagram below shows how the `EditXXXCommand` works:
+
+<puml src="diagrams/EditCommandSeqDiagram.puml" alt="EditCommandSeqDiagram" />
+
+The `EditAppointmentCommand` works similarly to the `EditCommand` as described in the example and diagram above.
+The only difference is the parameters needed for this command.
+The user can either edit the date or description of an appointment.
+This difference happens in Step 2: <br>
+The user executes the `edit_appt 1 /d changed to x-ray scan /on 01-01-2024 09:00` command
+to change the description and date of the first appointment on the list.
+
 
 #### Design considerations:
 
-**Aspect: How Doctor is going to be saved:**
+**Aspect: How Appointments are going to be edited:**
 
-* **Alternative 1 (current choice):** Doctor is its own class containing detailed information on the doctor.
-    * Pros: Similar to Person
-    * Cons: May introduce new bugs and is generally going to take up a lot of lines of code.
+* **Alternative 1 (current choice):** Appointment is Edited based on its Index in the overall Appointment List
+    * Pros: One centralized Appointment List for all Edit Appointment operations
+    * Cons: Harder to implement
 
-* **Alternative 2:** Doctor is just a String and is going to be saved inside an ArrayList since the most important part is just the name.
-    * Pros: Will be easier to implement and much simpler.
-    * Cons: Going to be harder for future developer to update the Doctor Class.
+* **Alternative 2:** An additional Index field of the Patients Index is to be given, followed by his/her Appointment to edit
+    * Pros: Appointment to be edited is specified to the specific Patient index input
+    * Cons: Harder for the user to visualise which Appointment he is going to edit
 
-### Delete Patient
+--------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
+
+### Delete Patient feature
 
 #### Implementation
 
-Our delete patient mechanism is facilitated by `DeleteCommand` and the `LogicManager` Class.
-User can enter `delete 3` which deletes all information, including appointments and details, of the person in the list.
-The following sequence diagram shows how the DeleteCommand class works.
+The delete feature is now separated for patients, doctors and appointments.
+Deleting a patient and doctors delete their corresponding appointments.
 
-<img src="images/DeleteCommandSequenceDiagram.png" width="1000px">
-The above shows the sequence diagram of the feature of Delete Patient.
+The delete command deletes a patient, doctor or appointment identified by their index in the displayed list.
+The deletion is done through the `deletePerson`, `deleteDoctor` and `deleteAppointment` functions in `ModelManager`.
+
+Given below is an example usage scenario for `DeleteCommand` and how this delete mechanism behaves.
+
+Step 1. The user launches the application. All patients are shown on the application as an indexed list.
+
+Step 2. The user executes `delete 3` command to delete the third patient in the displayed list.
+The `DeleteCommandParser` creates a `DeleteCommand`.
+
+Step 3. The execution of the `DeleteCommand` calls `Model#deletePerson(personToDelete)` to delete the person from the filtered list of patients.
+
+The following sequence diagram shows how the `DeleteCommand` class works.
+
+<puml src="diagrams/DeleteCommandDiagram.puml" alt="DeleteCommand UML"/>
 
 <box type="info" seamless>
 
-**Note:** 
+**Note:**
 * The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-* If the index of patient to be deleted is **less than 1** or **exceeds the number of patients in the List** then DeleteCommand is going to fail.
+* The command will not execute for any index that is **out-of-bounds**.
 </box>
 
 #### Design considerations:
 
 **Aspect: How convenient it is for clinic staff to delete:**
 
-* **Alternative 1 (current choice):** Delete based on `index` shown on the present list
-    * Pros: Intuitive and easy for nurse to delete
-    * Cons: Needs to use zero-based indexing since lists are zero-indexed but the view of clinic staff is one-indexed.
+* **Alternative 1 (current choice):** Delete based on `INDEX` shown on the present list
+    * Pros: Intuitive and easy for clinic staff to use.
+    * Cons: List index may change when staff first use `list` or `find`.
 
 * **Alternative 2:** Delete based on `name` of patient
-    * Pros: Will be more accurate when deleting a patient
-    * Cons: Takes more time as need to type out names of patient when deleting and length of names may vary from person to person
-    * Cons: User will face issues when trying to delete patients with the same name
+    * Pros: Will be more accurate when deleting a patient.
+    * Cons: Typing out patient names has higher room for error and takes a longer time.
+    * Cons: User will face issues when trying to delete patients with the same name.
+
+--------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
+
+### Delete Appointment feature
+
+#### Implementation
+
+This delete command deletes an appointment identified by its index in the displayed list.
+This deletion is done through the `deleteAppointment` function in `ModelManager`.
+Its mechanism is facilitated by `DeleteAppointmentCommand`, `UniqueAppointmentList` and the `LogicManager` Class.
+This deletion mechanism is largely similar to the delete patient mechanism,
+with the only difference being that the appointment is to be deleted from the Patient and Doctor classes.
+
+Given below is an example usage scenario for `DeleteAppointmentCommand` and how this delete mechanism behaves.
+
+Step 1. The user launches the application. All patients are shown on the application as an indexed list.
+
+Step 2. The user executes `delete_appt 3` command to delete the third appointment in the displayed list.
+The `DeleteAppointmentCommandParser` creates a `DeleteAppointmentCommand`.
+
+Step 3. The execution of the `DeleteAppointmentCommand` retrieves the third appointment in the list of unique appointments.
+
+Step 4. The methods `deletePatientAppointment` and `deleteDoctorAppointment` in the `DeleteCommand` class are called.
+The appointment linked to the corresponding doctor and patient is removed.
+
+Step 5. The execution of the `DeleteAppointmentCommand` calls `Model#deleteAppointment(appointmentToDelete)` to delete the person from the filtered list of patients.
+
+The following sequence diagram shows how the `DeleteAppointmentCommand` class works.
+
+<puml src="diagrams/DeleteAppointments.puml" alt="DeleteAppointment" />
+
+<box type="info" seamless>
+
+**Note:**
+* The lifeline for `DeleteAppointmentCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+* The command will not execute for any index that is **out-of-bounds**.
+  </box>
+
+
+#### Design considerations:
+
+**Aspect: How Appointments are being deleted:**
+
+* **Alternative 1 (current choice):** Appointment is being stored in 3 different places inside a patient object, a doctor object, and the `UniqueAppointmentList` and are being deleted once at each object.
+    * Pros: Easy to understand
+    * Cons: Can be easily filled with bugs and takes a lot of effort to implement.
+
+* **Alternative 2:** have only one List of Appointments and by deleting it there everywhere else appointment will be deleted.
+    * Pros: Will be harder for bugs to happen.
+    * Cons: Will be harder to implement.
+
+--------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### List feature
 
@@ -277,177 +398,100 @@ appointments in the database.
     * Pros: Will use less memory
     * Cons: Will be slower because we have to iterate through all the `Person` objects to get the appointments each time
 
-### Find appointments by date feature
+--------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
+
+### Find feature
 
 #### Implementation
 
-The find appointments by date feature built on the find appointment command. The `find_appt /on` command will list out
-all appointments in the Clinic Assistant database that falls on the date given.
+The find feature is now separated for the patients and appointments.
 
-To implement the find appointments by date command, we have to update the predicate for the filtered list of
-appointments to show on the frontend. We have to add a predicate to check for all the appointments that falls on the
-date given.
+The `FindCommand`, `FindByNricCommand` and `FindAppointmentsCommand` make use of predicates to filter the list of patients and 
+appointments. 
+Each command parser parses the field prefixes and the inputs keyed in by the user. 
+The command is then created, with the predicates passed in as parameters. 
+This predicate is used to update the filtered list of patients or appointments.
 
-The find appointment command is extended to take in different parameters and filter the list shown on the frontend
-accordingly.
+Given below is an example usage scenario for `FindCommand` and how the find mechanism behaves at each step.
+
+Step 1. The user launches the application. 
+The filtered patients list is initialized with an “always true” predicate for all the patient fields 
+and all patients are shown to the user as an indexed list on the patient list panel. <br>
+Step 2. The user executes the `find Alex` command to find all patients with the name field containing “Alex”. <br>
+Step 3. The keyword "Alex" is parsed by the `FindCommandParser`, and a `FindCommand` is created, together with a `NameContainsKeywordPredicate`. <br> 
+Step 4. The `FindCommand` calls `Model#updateFilteredPatientList(predicate)` to set the `predicate` of the filtered patients list to the new predicate created by the command. 
+The application displays the list of patients with names containing “Alex” on the patient list panel.
+
+The following sequence diagram shows how the `FindCommand` works:
+
+<puml src="diagrams/FindCommandSequenceDiagram.puml" alt="FindCommand UML"/>
+
+The `FindAppointmentsCommand` works similarly to the `FindCommand` as described in the example and diagram above.
+The only difference is the parameters needed for this command. 
+The user can either find appointments by a patient's name, or the date of an appointment.
+This difference happens in Step 2: <br>
+The user executes the `find_appt /on 01-01-2024` command to find all appointments on Jan 01, 2024.
+The user can also execute `find_appt /n Alex` to find all appointments for Alex.
 
 #### Alternatives considered
+**Aspect: Implementation and usability**
 
-**Aspect: How to implement the find appointments by date command:**
+* **Alternative 1 (current choice):** Create separate command for finding patients using different fields, and for finding appointments.
+    * Pros: Is a more organised way of searching for patients and appointments.
+    * Cons: Harder to implement, since we need to create various commands, parsers and predicates.
 
-* **Alternative 1 (current choice):** Extend the functionality of the find appointment command to take in different parameters
-    * Pros: More user-friendly and allows user to filter by multiple parameters
-    * Cons: Harder to implement
+* **Alternative 2:** Create only one command for finding patients and appointments using the command word `find`.
+    * Pros: Easier to implement.
+    * Cons: Too many prefixes to type in one command if we want to find by multiple fields, which can make the command very long.
 
-* **Alternative 2:** Add a new command to only filter by date
-    * Pros: Easier to implement
-    * Cons: Users cannot filter by multiple parameters
-
-
-### Find patient by NRIC feature
-
-#### Implementation
-
-The find patient by NRIC feature will find a patient whose NRIC matches the given NRIC.
-This feature is facilitated by the `FindByNricCommandParser` and `FindByNricCommand` classes.
-To find a patient using a given NRIC, we have to use this NRIC as a predicate for the list of patients with unique NRICs.
-We will compare each patient's NRIC to this given NRIC and return the patient with the matching NRIC.
-
-**The Specifics**
-
-The job of the `FindByNricCommandParser` is to create a `FindByNricCommand` command object,
-with a `NricContainsKeywordPredicate` object passed in as a parameter.
-
-The `updateFilteredPersonList` method in the `Model` class is called,
-which then calls the `setPredicate` method in the `FilteredList` class,
-both with the `NricContainsKeywordPredicate` object passed in as the predicate.
-
-
-<img src="images/FindByNricSequenceDiagram.png" width="1000px">
-The above shows the sequence diagram of the find by NRIC feature.
-
-**Alternatives considered**
-
-**Aspect: How to implement find patient by NRIC feature**
-
-* **Alternative 1 (current choice):** Create a new command that takes in the required NRIC as an argument.
-    * Pros: Easy to implement, as it has a structure similar to the original Find command.
-    * Cons: If users were to input an erratic NRIC, no matching patients will be shown.
-* **Alternative 2:** Extend the pre-existing Find command to accept NRIC as another argument
-    * Pros: With more parameters, users can look for more patients at one time.
-  Even if the user inputs an erratic NRIC, they can still input the patients name
-  and receive a list of possible matching patients to choose from.
-    * Cons: This is harder to implement as the FilteredList would have to take in more than 1 type of predicate.
-
-### Add/delete Appointment feature
-
-#### Implementation
-
-The add/delete Appointment mechanism is facilitated by `UniqueAppointmentList` and a `Appointment` Class. `UniqueAppointmentList` extends `Iterable<Appointment>` which stores and ensures all the Appointments in this list are unique. Additionally it implements the same operations as the `UniquePersonList`.
-The Appointment class stores the relevant data of the Appointment such as description, date (inclusive of time) as well as Patient it belongs to.
-
-The delete Appointment command does the opposite — it calls deleteAppointment(INDEX), which deletes the Appointment from the system by their Index.
-
-**Note:** If the index of either add or delete is less than 1 or exceeds the number of Appointments in the List then the command will fail.
-
-#### Design considerations:
-
-**Aspect: How Appointments are going to be saved:**
-
-* **Alternative 1 (current choice):** Appointment is its own class containing detailed information on the Appointment.
-    * Pros: Similar to Person
-    * Cons: May introduce new bugs and is generally going to take up a lot of lines of code.
-
-* **Alternative 2:** Appointments are just a String and is going to be saved inside an ArrayList.
-    * Pros: Will be easier to implement and much simpler.
-    * Cons: Going to be harder for future developers to update the Appointment Class.
-
-### Edit Appointment feature
-
-#### Implementation
-
-The edit Appointment mechanism is facilitated by the `EditAppointmentDescriptor` class. It's mechanism is similar to that of `EditCommand`'s implementation.
-An `edit_appt` command input takes in an Appointment Index, followed by a minimum of 1 required input change of either description `[/d]` or date `[/on]`.
-
-After receiving the users input, the `EditAppointmentCommandParser` parses the given input to form an `EditAppointmentDescriptor`, which will then be used by `createEditedAppointment` to create an Appointment to replace the user specified index.
-
-**Note:** If the Index provided is invalid (0 or bigger than the size of Appointment list), or no input change is given, the command will fail.
-
-#### Design considerations:
-
-**Aspect: How Appointments are going to be edited:**
-
-* **Alternative 1 (current choice):** Appointment is Edited based on its Index in the overall Appointment List
-    * Pros: One centralized Appointment List for all Edit Appointment operations
-    * Cons: Harder to implement
-
-* **Alternative 2:** An additional Index field of the Patients Index is to be given, followed by his/her Appointment to edit
-    * Pros: Appointment to be edited is specified to the specific Patient index input
-    * Cons: Harder for the user to visualise which Appointment he is going to edit
+--------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ### View Available Timeslots feature
 
 #### Implementation
 
-The view available timeslots mechanism is facilitated by the `UniqueTimeslotList` class.
+The view available timeslots feature displays all available timeslots on the specific date. 
+This mechanism is facilitated by the `UniqueTimeslotList` and `Timeslot` class.
 A `view` command input takes in a `date` and displays all available timeslots for that `date`. This is mainly used by users
-to identify available timeslots in an instant which they can use to book appointments on.
+to identify available timeslots instantly which they can use to book appointments on.
 
-After receiving the users input, the `ViewAvailableCommandParser` parses the given input to return a `ViewAvailableCommand` instance which will then be executed.
+Given below is an example usage scenario for `ViewAvailableCommand` and how view available timeslots mechanism behaves.
 
-**Note:** If the `date` provided is invalid (**non-existent** (eg 31-02-2024), or **past** (eg 01-01-1900)), the command will fail.
+Step 1. The user launches the application. Patients and appointments already exist in the database and shown on the indexed list.
+
+Step 2. The user executes `view /on 02-01-2024` command to view all available timeslots in the displayed list for 02 Jan 2024.
+The `ViewAvailableCommandParser` creates a `ViewAvailableCommand`.
+
+Step 3. The execution of the `ViewAvailableCommand` retrieves all available timeslots on 02 Jan 2024 in the Timeslots tab.
+
+Step 4. The methods `populateUnavailableTimeslot` and `addAvailableTimeslotsToModel` in the `ViewAvailableCommand` class are called.
+The available timeslots not in the appointment list is added to the `UniqueTimeslotList`.
+
+Step 5. The execution of the `ViewAvailableTimeslot` calls `Model#updateFilteredAvailableTimeslot` to update the new list of available timeslots in the Timeslots tab.
+
+<puml src="diagrams/ViewAvailableDiagram.puml" alt="ViewAvailableCommand UML" width = "100000" />
+
+**Note:**
+* The lifeline for `ViewAvailableCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+* As method names for this feature is a little long, due to the limitation of PlantUML, kindly zoom in to have a better view of this sequence diagram.
+  </box>
 
 #### Design considerations:
 
 **Aspect: What Timeslots will be added:**
 
 * **Alternative 1 (current choice):** Loop through all appointments in the appointment list and only add timeslots which are available
-    * Pros: Allows to retrieve the latest appointments and add available timeslots accurately
-    * Cons: Increased coupling between timeslots and appointment
+    * Pros: Allows to retrieve the latest appointments and add available timeslots accurately.
+    * Cons: Increased coupling between timeslots and appointment.
 
-* **Alternative 2:** Add the time from appointments directly without any timeslot
-    * Pros: Easier to implement as we only need to get time from appointment directly
-    * Cons: Harder for user to visualise exactly which timeslot is available and can be used to book appointments
+* **Alternative 2:** Add the timeslots taken by appointments directly
+    * Pros: Easier to implement as we only need to get time from appointments.
+    * Cons: Harder for user to visualise exactly which timeslot is available and can be used to book appointments.
 
-## **Planned enhancements**
-
-### Edit Doctor
-
-#### Implementation
-
-This enhancement will let the user edit details of the doctor inside the clinic assistant without deleting or interfering with the appointments that doctor has.
-
-This edit command will take in a parameter INDEX which is a positive integer which references to the index of doctors shown on the screen.
-
-Furthermore it will take in information that the specified doctor's information will be changed to.
-This will create a new Doctor Object and transfer over all the information that isnt specified in the edit command to be the same as the original doctor.
-
-#### Design consideration:
-
-**Aspect: How the doctor object is going to be edited:**
-
-* You can make it so that you change the value of the variables inside the original doctor
-    * Pros: save space and improve space and time complexity
-    * Cons: Risk introducing unexpected bug as Doctor is no longer immutable
-
-### Edit Appointment to include editing of Doctor details
-
-#### Implementation
-
-This enhancement will let the user edit the appointments associated doctor.
-
-This edit command will take in a parameter INDEX which is a positive integer which references to the index of doctors shown on the screen.
-
-Furthermore it will take in information that the specified doctor's information will be changed to.
-This will then change the doctor associated with the appointment the user is editing.
-
-#### Design consideration:
-
-**Aspect: How the doctor is going to be edited:**
-
-* Edit associated doctor based on INDEX shown on the present doctor list. e.g., `edit_appt /doc 2` will edit the doctor associated to the appointment to the second doctor displayed in the Doctor list.
-    * Pros: Intuitive for clinic assistants to use
-    * Cons: Might be difficult to implement
+--------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Documentation, logging, testing, configuration, dev-ops**
 
@@ -493,19 +537,19 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | clinic assistant             | edit a doctor's information                 | update any changes to doctors in the clinic            |
 | `* *`    | clinic assistant             | edit a patient's information                | update any changes to patients in the clinic           |
 
-*{More to be added}*
+<div style="page-break-after: always;"></div>
 
 ### Use cases
 
-(For all use cases below, the **System** is the `ClinicAssistant` and the **Actor** is the `Clinic assistant`, unless specified otherwise)
+(For all use cases below, the **System** is the `ClinicAssistant` and the **Actor** is the `clinic assistant`, unless specified otherwise)
 
 **Use case 1: Add a patient**
 
 **MSS**
 
 1.  New patient visits the clinic
-2.  Patient is not in ClinicRecords
-3.  Clinic staff adds this new patient into the ClinicRecords
+2.  Patient is not in the clinic database
+3.  Clinic staff adds this new patient into the clinic database
 4.  ClinicAssistant shows a confirmation message
 
     Use case ends.
@@ -522,9 +566,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  Clinic staff wants to see all patient records
-2.  Clinic staff requests to list patients
-3.  ClinicAssistant shows a list of patients
+1.  Clinic staff wants to see all patient records.
+2.  Clinic staff requests to list patients.
+3.  ClinicAssistant shows a list of patients.
 
     Use case ends.
 
@@ -532,22 +576,49 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. Patient visits the clinic
-2. Clinic staff needs the information of this specific patient
-3. Clinic staff inserts the patient's details
-4. ClinicAssistant retrieves the patient's information for the clinic staff
+1. Patient visits the clinic.
+2. Clinic staff needs the information of this specific patient.
+3. Clinic staff inserts the patient's details.
+4. ClinicAssistant retrieves the patient's information for the clinic staff.
 
    Use case ends.
 
 **Extensions**
 
-* 3a. The patient cannot be found
+* 3a. The patient cannot be found.
     * 3a1. ClinicAssistant shows an error message.
 
       Use case resumes at step 3.
 
-**Use case 4: Delete a patient**
+**Use case 4: Edit details of a specific patient**
 
+**MSS**
+
+1. Patient visits the clinic.
+2. Patient informs clinic staff of changes to his/her details.
+3. Clinic staff searches for the patient in Clinic Assistant (by name or NRIC).
+4. Clinic staff edits the patient's details in Clinic Assistant.
+5. ClinicAssistant shows a confirmation message.
+
+   Use case ends.
+
+**Extensions**
+
+* 3a. The patient cannot be found.
+    * 3a1. ClinicAssistant shows an error message.
+    * 3a2. Clinic staff checks if the name or NRIC is correct.
+    * 3a3. Clinic staff searches for the patient again.
+
+      Use case resumes at step 4.
+
+* 4a. The given input to edit the patient's details is invalid.
+    * 4a1. ClinicAssistant shows an error message.
+    * 4a2. Clinic staff checks and enters the correct input.
+
+      Use case resumes at step 5.
+
+**Use case 5: Delete a patient** <br>
+**Actor:** Clinic staff <br>
 **MSS**
 
 1. User requests to list all patients.
@@ -565,33 +636,103 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 4.
 
-**Use case 5: Viewing available timeslots to book appointment**
-
+**Use case 6: Viewing available timeslots to book appointment** <br>
+**Actor:** Clinic staff, Patient <br>
 **MSS**
 
 1. User needs to book an appointment for a patient.
 2. User chooses a date and enters it.
 3. ClinicAssistant returns a list of available timeslots on that date.
-4. User finds an available timeslot from the given list. 
+4. User finds an available timeslot from the given list.
 5. User proceeds to book an appointment for the patient on that specific date and timeslot
 
    Use case ends.
 
 **Extensions**
-* 2b. Date entered is invalid
+* 2b. Date entered is invalid.
     * 2b1. ClinicAssistant shows an error message and requests for correct date.
-    * 2b2. User enters a new date. 
-    * Steps 2b1 - 2b2 are repeated until date entered is correct
+    * 2b2. User enters a new date.
+    * Steps 2b1 - 2b2 are repeated until date entered is correct.
 
       Use case resumes at step 3.
 
-* 3a. ClinicAssistant returns an empty list of available timeslots
-    * 3a1. User now has to enter a new date 
-    * Step 3a1 is repeated until date entered has list of at least 1 available timeslot
+* 3a. ClinicAssistant returns an empty list of available timeslots.
+    * 3a1. User now has to enter a new date .
+    * Step 3a1 is repeated until date entered has list of at least 1 available timeslot.
 
       Use case resumes at step 4.
 
-*{More to be added}*
+**Use case 6: Add a doctor** <br>
+**Actor:** Clinic staff, Doctor <br>
+**Preconditions:** there is no doctor with the exact same name already in the system. <br>
+**MSS**
+
+1. A doctor joins the clinic.
+2. Doctor is not in ClinicRecords.
+3. Clinic staff asks the doctor for the required information.
+4. Clinic staff enters the add doctor command with the information.
+5. ClinicAssistant adds this new doctor into the ClinicRecords.
+6. ClinicAssistant shows a confirmation message.
+
+   Use case ends.
+
+**Extensions:**
+* 4a. ClinicAssistant detects an error in the entered information.
+    * 4a1. ClinicAssistant shows error message.
+    * 4a2. Clinic staff enters new information to the add doctor command.
+    * Steps 4a1 and 4a2 are repeated until the information required is entered correctly.
+    
+      Use Case resumes at step 5.
+
+**Use case 7: Delete a doctor** <br>
+**Actor:** Clinic staff, Doctor(multiple doctors) <br>
+**Preconditions:** at least one Doctor is in the system. <br>
+
+**MSS**
+
+1. A doctor chooses to leave the clinic.
+2. Clinic staff asks the doctor's required information.
+3. Clinic staff lists all the doctor in the system.
+4. Clinic staff searches for the correct index of the doctor.
+5. Clinic staff enter the delete doctor command.
+6. ClinicAssistant deletes the doctor from the system and shows the success message.
+
+   Use case ends.
+
+**Extensions:**
+* 5a. ClinicAssistant detects an error in the entered index.
+    * 5a1. ClinicAssistant shows error message.
+    * 5a2. Clinic staff enters a new delete doctor command with a different index.
+    * Steps 5a1 and 5a2 are repeated until the index entered is correct.
+  
+      Use Case resumes at step 6.
+
+**Use case 8: Delete an appointment** <br>
+**Actor:** Clinic staff, Patient <br>
+**Preconditions:** at least one Doctor is in the system, the Patient is already in the system, the appointment exists in the system. <br>
+
+**MSS**
+
+1. A patient wants to cancel an appointment.
+2. Clinic staff asks for the patient's name and appointment date.
+3. Clinic staff <u>enters the find appointment command</u>.
+4. ClinicAssistant shows the list of appointments for the find appointment command.
+5. Clinic staff asks the patient for the time of appointment.
+6. Clinic staff searches for the right appointment.
+7. Clinic staff enters the delete appointment command.
+8. ClinicAssistant deletes the appointment and shows the success message.
+
+   Use case ends.
+
+**Extensions:**
+* 7a. ClinicAssistant detects an error in the entered index.
+    * 7a1. ClinicAssistant shows error message.
+    * 7a2. Clinic staff enters a new delete appointment command with a different index.
+    * Steps 7a1 and 7a2 are repeated until the index entered is correct.
+
+      Use Case resumes at step 8.
+
+<div style="page-break-after: always;"></div>
 
 ### Non-Functional Requirements
 
@@ -604,15 +745,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 7.  System uses extremely secure security software to keep patient data safe and secure
 8.  System supports the use of English in both UK and US languages
 
-*{More to be added}*
 
 ### Glossary
 * **GUI**: Graphical User Interface, a visual display which the user sees and interacts with
 * **API**: Application Programming Interface, functions that allow created applications to access the features of an operating system, application or other service
 
-*{More to be added}*
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Appendix: Instructions for manual testing**
 
@@ -640,7 +780,37 @@ testers are expected to do more *exploratory* testing.
     1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+### Adding a Patient
+1. Adding a patient <br>
+   1. Prerequisite: None
+   1. Test case: `add /n Drizzy /p 99090909 /e drake@gmail.com /g F /age 18 /eth Chinese /ic T0123456E /a 901 Shelby Dr` <br>
+   Expected: Given patient is added to the database. Details of the added patient shown in the status message.
+   1. Test case: `add Drizzy /p 99090909` <br>
+   Expected: Given patient is not added. Error details shown in status message.
+   3. Other incorrect add commands to try: any commands where any of the mandatory parameters are missing. <br>
+   Expected: Similar to previous.
+
+### Editing a Patient
+
+1. Editing a patient's details in the `Patients` list
+
+    1. Prerequisites: At least 1 patient in the `Patients` list. <br>
+    Done by listing all patients using the `list` command. <br>
+    Or by finding specific patients by name using the `find` command. <br>
+    Or by finding specific patients by NRIC using the `find_nric` command. 
+    If there are currently no patients in Clinic Assistant, use `add` command to add a patient into the list.
+
+    2. Test case: `edit 1 /p 91234567 /e johndoe@example.com`<br>
+       Expected: The phone number and email of the first person in the `Patients` list is updated to the new values. Details of the updated patient is shown in the status message.
+
+    3. Test case: `edit 0`<br>
+       Expected: No patient's details is updated. Error details shown in the status message for invalid command format.
+    
+    4. Test case: `edit 1 /p 12345678`<br>
+       Expected: The phone number of the first person in the `Patients` list is not updated. Error details shown in the status message for valid phone number inputs.
+
+    5. Other incorrect edit commands to try: `edit`, `edit x`, `...` (where x is larger than the list size)<br>
+       Expected: Similar to test case in step 3.
 
 ### Deleting a Patient
 
@@ -657,9 +827,77 @@ testers are expected to do more *exploratory* testing.
     4. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
        Expected: Similar to previous.
 
+### Adding a Doctor
+3. Adding a Doctor to the `Doctor` List.
+
+   1. Prerequisites: Make sure to have the Doctor List Panel on the screen by clicking the Doctors Tab.
+   
+   2. Test case: `add_doctor /n Dr Lee /p 91236789 /e lee@gmail.com /g M /age 30 /a Prince Gearge Park ` <br>
+      Expected: The Doctor will show in the Doctor List in the order of first added to last added. Success message will be shown in the output display.
+   
+   3. Test case: `add_doctor`
+      Expected: No Doctor will be added and a error message will be shown at the output display.
+
+   4. Other incorrect add_doctor commands to try: `add_doctor /n John `, `add_doctor /age 100 `, `...` (where you are missing one of the syntax)<br>
+      Expected: Similar to previous.
+
+### Deleting a Doctor
+
+1. Deleting a doctor from `Doctor` list
+
+    1. Prerequisites: List all doctors by clicking on the Doctors tab. At least 1 doctor in the list. Use `add_doctor` to add a doctor into the list.
+
+    2. Test case: `delete_doctor 1`<br>
+       Expected: First doctor is deleted from the list. Details of the deleted doctor is shown in the output display.
+
+    3. Test case: `delete_doctor INDEX` (where INDEX is larger than the number of doctors in the list)<br>
+       Expected: No doctor is deleted. Error message `The doctor index provided is invalid` will be shown in the output display. 
+   
+    4. Test case: `delete_doctor 0`<br>
+       Expected: No doctor is deleted. Error details shown in the output display.
+   
+    5. Other incorrect delete commands to try: `delete_doctor`, `delete_doctor x`, `...` (where x is not a positive integer)<br>
+       Expected: Similar to previous.
+
+### Adding an Appointment
+
+1. Deleting an appointment from `Appointment` list
+
+    1. Prerequisites: At least 1 Doctor and 1 Patient must be present in the clinic records. Use `add_doctor` & `add` to add a Doctor and Patient respectively into the clinic records.
+
+    2. Test case: `appt /for 1 /doc 1 /d x-ray scan /on 02-01-2024 12:00`<br>
+       Expected: An appointment is added to the list. Details of the added appointment is shown in the output display.
+
+    3. Test case: `appt /for 1 /doc 1 /d x-ray scan /on tuesday` (where `DATE_TIME` is invalid)<br>
+       Expected: No appointment is added and an error message will be shown in the output display.
+
+    4. Test case: `appt`<br>
+       Expected: No appointment is added. Error details shown in the output display.
+
+    5. Other incorrect delete commands to try: `appt /for 0`, `appt /for 1 /on 01-01-2024 12:00`<br>
+       Expected: Similar to previous invalid cases.
+
+### Deleting an Appointment
+
+1. Deleting an appointment from `Appointment` list
+
+    1. Prerequisites: List all appointments by clicking on the Appointments tab and use the `list_appt` command. At least 1 appointment in the list. Use `appt` to add an appointment into the list.
+
+    2. Test case: `delete_appt 1`<br>
+       Expected: First appointment is deleted from the list. Details of the deleted appointment is shown in the output display.
+   
+    3. Test case: `delete_appt INDEX` (where `INDEX` is larger than the number of appointments in the list)<br>
+       Expected: No appointment is deleted. Error message `The appointment index provided is invalid` will be shown in the output display. 
+   
+    4. Test case: `delete_appt 0`<br>
+       Expected: No appointment is deleted. Error details shown in the output display.
+
+    5. Other incorrect delete commands to try: `delete_appt`, `delete_appt x`, `...` (where x is not a positive integer)<br>
+       Expected: Similar to previous.
+
 ### View Available Timeslots
 
-2. Viewing available timeslots on a given `DATE`
+1. Viewing available timeslots on a given `DATE`
 
     1. Prerequisites: None but good to have some appointments made using `appt`
 
@@ -672,6 +910,28 @@ testers are expected to do more *exploratory* testing.
     4. Other incorrect view commands to try: `view`, `view /on x`, `...` (where x is past date)<br>
        Expected: Similar to previous.
 
+### Find Patients or Appointments
+
+1. Finding patients using their name
+    2. Prerequisite: None but good to have some patients in the list.
+    3. Test case: `find Alex` <br>
+       Expected: Patient list shows only the patients with the name `Alex`.
+    4. Test case: `find 01-01-2024` <br>
+       Expected: No patients found. Error details shown in the status message.
+    5. Test case: `find T1234567E` <br>
+       Expected: Similar to previous.
+8. Finding patients using their NRIC
+    1. Test case: `find_nric T1234567E` <br>
+       Expected: Patient list shows the one patient with the given NRIC.
+    2. Test case: `find_nric x12356e` <br>
+       Expected: No patients found. Error details shown in the status message.
+11. Finding appointments
+    1. Test case: `find_appt /on 01-01-2024` <br>
+       Expected: Appointment list shows all appointments on Jan 01, 2024.
+    2. Test case: `find_appt /n Alex` <br>
+       Expected: Appointment list shows all appointments for Alex.
+    3. Test case: `find_appt /on 02/02/2024`<br>
+       Expected: No appointments will be displayed. Error details shown in the status message.`
 
 ### Saving data
 
@@ -680,3 +940,181 @@ testers are expected to do more *exploratory* testing.
     1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
+--------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
+
+## **Appendix: Planned Enhancements**
+In the near future, we hope to be able to enhance our application as stated below.
+
+### Make the name of the Doctor not case sensitive
+
+#### Implementation
+
+Currently when the system receives an add_doctor command they only check whether the string of the name is exactly the same or not.<br>
+In the feature a good enhancement would be to make this check not case sensitive to follow the real world better.<br>
+This can be done by improving the isSameDoctor feature and replacing the current Name.equal method with a method that considers capital letter also.
+
+### Design consideration
+
+**Aspect: How to check without case sensitivity**
+
+* Create a method to check whether the letters are the same by checking both the letters lower case and upper case char value
+    * Pros: can make sure the letters are not affected by case sensiticity during checks
+    * Cons: will be slightly tedious to implement.
+  
+### Allow different doctors to have appointment slots at the same timing
+
+#### Implementation
+
+Currently, different doctors cannot have the appointment slots at the same timing. This is done with the assumption that the GP clinic will only have one doctor and one room at any one time.
+However, in the future, we hope to be able to allow different doctors to have appointment slots at the same timing. This will allow the clinic to have multiple doctors and rooms at the same time.
+
+This enhancement will allow the user to add appointments with the same timing as long as the doctor is different.
+
+The `view` Timeslots command will also be updated to show the available timeslots for all doctors.
+
+To implement this, there has to be a check to ensure that the appointment timing does not clash with any other appointments for the same doctor when adding/editing appointments.
+
+#### Design consideration:
+
+**Aspect: How to ensure each doctor can only have 1 appointment for timeslot:**
+
+* When a new appointment is added or edited, check if the appointment timing clashes with any other appointments for the same doctor.
+    * Pros: Easy to implement.
+    * Cons: Additional check required when adding/editing appointments.
+
+
+### Change the tab to the corresponding tab of the command
+
+#### Implementation
+
+Currently, when a command is used, the tab the user is on will not switch to the corresponding tab of the command. E.g. if the user is on the `Doctors` tab, entering the `list` command
+will not switch the user to the `Patients` tab. In the future, we hope to be able to implement this feature such that the user will be switched to the corresponding tab of the command.
+
+This applies for all commands such as `list_appt`, `add`, `add_doctor`, `edit`, `edit_appt`, `delete`, `delete_doctor`, `delete_appt`, `find`, `find_nric`, `find_appt`, `view`, `appt`, `edit_appt` and `delete_appt`.
+
+This enhancement will allow the user to be switched to the corresponding tab of the command.
+
+This enhancement will improve the user experience as the user will not have to manually switch to the corresponding tab of the command.
+
+#### Design consideration:
+
+**Aspect: How to implement changing of tabs:**
+
+* Create a method to switch to the corresponding tab of the command and call this method whenever a command is used.
+    * Pros: Easy to implement.
+    * Cons: Additional method required to switch tabs.
+
+
+### Edit Appointment to include editing of Doctor details
+
+#### Implementation
+
+This enhancement will let the user edit the appointments associated doctor.
+
+This edit command will take in a parameter INDEX which is a positive integer which references to the index of doctors shown on the screen.
+
+Furthermore, it will take in information that the specified doctor's information will be changed to.
+This will then change the doctor associated with the appointment the user is editing.
+
+#### Design consideration:
+
+**Aspect: How the doctor is going to be edited:**
+
+* Edit associated doctor based on INDEX shown on the present doctor list. e.g., `edit_appt /doc 2` will edit the doctor associated to the appointment to the second doctor displayed in the Doctor list.
+    * Pros: Intuitive for clinic assistants to use
+    * Cons: Might be difficult to implement
+
+### Display date in Timeslot tab even on first view call
+
+#### Implementation
+
+Currently, the date in the timeslot tab only appears after calling view command more than once. This is done in our previous release under the assumption that the first call of the command is not ambiguous.
+
+However, in the future, we will change it to instantly display the date whenever we call the view command. This will help to improve user experience, increasing their confidence since date is always displayed.
+
+This enhancement will enhance the user experience when using the view command and the timeslots tab.
+
+To implement this, there needs to be a logic change in the front end of the view available command.
+
+#### Design consideration:
+
+**Aspect: How to ensure user is certain of the date of the available timeslots they are viewing:**
+
+* Whenever a view command is called, display the date at the top of the timeslot tab, even for the first call.
+    * Pros: Helps to make the user experience more smooth.
+    * Cons: Difficult to implement.
+
+### Change duration of each timeslot to smaller durations
+
+#### Implementation
+
+Currently, the duration of every timeslot is exactly 1 hour. This is done under the assumption that most appointments take 1 hour and to provide doctors with sufficient rest.
+
+However, in the future, we will change it to variable timeslots which clinic assistants can choose depending on the type of appointment. This will help to improve efficiency of the clinic to be able to treat more patients in a day.
+
+To implement this, there needs to be a back end change in the view available command where timeslots added will be in intervals of different durations.
+
+#### Design consideration:
+
+**Aspect: How to ensure clinic can cater to people of different appointment types:**
+
+* Whenever a view command is called, display all time intervals which the doctor is free.
+    * Pros: Clinic assistant can view the time interval and book the appointment as necessary.
+    * Cons: Difficult to implement.
+<div style="page-break-after: always;"></div>
+
+## **Appendix: Future Features**
+
+### Edit Doctor
+
+#### Implementation
+
+This enhancement will let the user edit details of the doctor inside the clinic assistant without deleting or interfering with the appointments that doctor has.
+
+This edit command will take in a parameter INDEX which is a positive integer which references to the index of doctors shown on the screen.
+
+Furthermore, it will take in information that the specified doctor's information will be changed to.
+This will create a new Doctor Object and transfer over all the information that isnt specified in the edit command to be the same as the original doctor.
+
+#### Design consideration:
+
+**Aspect: How the doctor object is going to be edited:**
+
+* You can make it so that you change the value of the variables inside the original doctor
+    * Pros: save space and improve space and time complexity
+    * Cons: Risk introducing unexpected bug as Doctor is no longer immutable
+
+--------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
+
+## **Appendix: Effort**
+
+The effort required for our team to finish this team project from start to finish was quite substantial. We faced many difficulties at every step and milestone, but in the end we overcame those challenges and prevailed.
+The difficulty of this team project was quite high as there are a lot of unexpected challenges that came up. In the first few weeks it was quite smooth as we only had to figure out what kind of product we wanted to make and who we wanted to make it for.
+Afterwards is where things get more challenging it turns out that refactoring existing code was more difficult than it seemed. An example, the Person Object needed to be changed to hold more information like nric.
+This causes many of the existing test cases from AB3 to break. Another challenge was when we added another entity type class called Appointment. At first, it may seem like it would not be that hard to implement Appointment by referencing the code for the Person Object.
+But when we arrived at the storage implementation we were stuck for quite a while. It was quite a challenge to figure out how we could store and reap the Appointment class reliably.
+
+<br>
+
+Although those experiences was frustrating at times, when we finally managed to finish a section, we felt a sense of achievement every single time.
+One of these moments is when we managed to figure out how to read and write from the json file when we added Appointments to the project. This achievement was one of the bigger milestone that we crossed  that helped with the implementations of future features.
+For example, When the Doctor Object was added to the project it was definitely smoother as we already had experience before hand with appointments. This makes the implementation of Doctor slightly faster as we had overcame these challenges before.
+Although the Doctor Object also came with challenges that are unique. This is because the Doctor Object has a deep interaction with the Appointment Objects making it a three-way connection between the three classes. This causes a lot of problems and bugs that took a lot of effort and was very difficult to solve due to the increasingly complex code.
+
+<br>
+
+Another unique challenge was the GUI of the project. Most of us are not familiar with javafx before this, therefore we encountered difficulties not only in coding the gui, but also coming up with the design of it.
+We wanted to make it not too cluttered without sacrificing any of the feature we wanted to add. We then went through multiple iterations to figure out what was the best way to get the most out of the UI. We accomplished these eventually by using tab Panes that let
+us have a good amount of information stored in the project without sacrificing the readability of it.
+
+<br>
+
+Testing and Debugging was one of the biggest challenges we encountered throughout this project. Debugging was extremely time-consuming and so were finding bugs. We learned that we had quite a lot of room for improvement during the PE-D. This
+demo helped us realise things that we have overlooked before as a team. This was an extremely important experience for us as we were forced to not only fix the bugs each member is responsible for, but we also had to cooperate in debugging and testing each other's code. This
+part of the project might be the most difficult and time-consuming one as it took a lot of hours to finish and not a lot of time to spare. The moment when we realise that we had fixed most of the issues found during and after the PE-D was one of the biggest achievement in this project, as it signifies the end of this team project.
+
+In conclusion, We learned a lot from this team project. Whether that was teamwork, coding, and time management. We struggled a lot at almost every step of the way, but we prevailed and came out of it as better programmers.
+We learned a lot about various programming and software engineering practices and techniques like, testing, uml diagrams, user stories, defensive coding. By using everything that we learned this past semester we are able to come up with a good product with important features that prioritized the user's needs first.

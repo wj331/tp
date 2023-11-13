@@ -130,7 +130,7 @@ public class EditAppointmentCommand extends Command {
      * @param appointmentToEdit Appointment instance we are editing from
      * @param editedAppointment Appointment instance we want to edit to
      */
-    public void updateModelTimeslotList(Model model, Appointment appointmentToEdit, Appointment editedAppointment) {
+    private void updateModelTimeslotList(Model model, Appointment appointmentToEdit, Appointment editedAppointment) {
         if (!(model.getAvailableTimeSlotList().size() == 0)) {
             LocalDate currDate = model.getAvailableTimeSlotList().get(0).getDate();
             LocalDate prevApptDate = appointmentToEdit.getDateTime().toLocalDate();

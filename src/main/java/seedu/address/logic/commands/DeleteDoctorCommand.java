@@ -68,7 +68,7 @@ public class DeleteDoctorCommand extends Command {
      * @param model Model we are executing on
      * @param appointment Appointment we are updating with
      */
-    public void updateModelTimeslotList(Model model, Appointment appointment) {
+    private void updateModelTimeslotList(Model model, Appointment appointment) {
         if (model.getAvailableTimeSlotList().size() > 0) {
             LocalDate currDate = model.getAvailableTimeSlotList().get(0).getDate();
             LocalDate apptDate = appointment.getDateTime().toLocalDate();

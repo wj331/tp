@@ -88,7 +88,9 @@ public class ViewAvailableCommand extends Command {
      * @param model Current model we have
      */
     public void addAvailableTimeslotsToModel(Set<Integer> unavailableTimeslots, Model model) {
-        for (int i = 9; i < 18; i++) {
+        int startTime = 9;
+        int endTime = 18;
+        for (int i = startTime; i < endTime; i++) {
             if (unavailableTimeslots.contains(i)) {
                 continue;
             }

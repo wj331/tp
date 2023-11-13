@@ -5,6 +5,8 @@ import static java.util.Objects.requireNonNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
@@ -29,7 +31,7 @@ public class DeleteCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_DELETE_PATIENT_SUCCESS = "Deleted Person: %1$s from clinic records";
-
+    private static Logger logger = Logger.getLogger("DeleteCommandLogger");
     private final Index targetIndex;
 
     public DeleteCommand(Index targetIndex) {
@@ -47,6 +49,7 @@ public class DeleteCommand extends Command {
         }
 
         Person personToDelete = lastShownList.get(targetIndex.getZeroBased());
+        assert personToDelete != null : "Person to delete is null!";
         model.deletePerson(personToDelete);
 
         ArrayList<Appointment> patientAppointments = personToDelete.getAppointments();
@@ -65,6 +68,7 @@ public class DeleteCommand extends Command {
 
     private void updateModelTimeslotList(Model model, Appointment appointment) {
         if (model.getAvailableTimeSlotList().size() > 0) {
+            logger.log(Level.INFO, "Updating Timeslot List!");
             LocalDate currDate = model.getAvailableTimeSlotList().get(0).getDate();
             LocalDate apptDate = appointment.getDateTime().toLocalDate();
 
